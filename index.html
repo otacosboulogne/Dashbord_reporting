@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard Restaurants — CA & Commandes</title>
+<style>
+:root{
+  --orange:#ff7900;--orange2:#ffb000;--blue:#102a56;--navy:#071528;
+  --bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#667085;--line:#dbe4f0;
+  --success:#16a34a;--danger:#dc2626;--warn:#f59e0b;--shadow:0 16px 38px rgba(16,42,86,.10);
+  --radius:22px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;
+  background:linear-gradient(180deg,#eef4ff 0%,#fff8ef 48%,#f8fafc 100%);
+  color:var(--text);font-size:14px;
+}
+.app{max-width:1380px;margin:auto;padding:16px 12px 60px}
+.hero{
+  background:linear-gradient(135deg,var(--blue),var(--navy));color:#fff;border-radius:30px;
+  padding:22px;box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden;position:relative;
+}
+.hero:before{content:"";position:absolute;right:-80px;top:-90px;width:300px;height:300px;border-radius:999px;background:rgba(255,121,0,.22)}
+.hero-inner{position:relative;z-index:1;display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}
+h1{margin:0;font-size:26px;line-height:1.05}
+.hero p{margin:7px 0 0;color:#cbd5e1;font-weight:800;font-size:13px}
+.badge{display:inline-flex;align-items:center;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);padding:9px 12px;font-weight:1000;font-size:12px}
+.card,.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.panel{padding:16px;margin-bottom:14px}
+.card{padding:15px}
+.filters{
+  display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr 1fr;gap:12px;align-items:end;
+}
+.field{display:flex;flex-direction:column;gap:6px}
+label{font-size:12px;color:var(--blue);font-weight:1000;text-transform:uppercase;letter-spacing:.3px}
+input,select,button{
+  width:100%;border:1.5px solid var(--line);border-radius:18px;background:#fff;color:#111827;
+  min-height:50px;padding:12px 14px;font:inherit;font-size:16px;font-weight:900;outline:none;
+}
+input:focus,select:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,121,0,.13)}
+button{border:0;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;cursor:pointer}
+button.secondary{background:#eef2f7;color:var(--blue)}
+.hidden{display:none!important}
+.period-note{margin-top:12px;padding:11px 13px;border-radius:16px;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-weight:900}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tab{border:1px solid var(--line);background:#fff;color:var(--blue);border-radius:999px;padding:11px 14px;font-weight:1000;cursor:pointer}
+.tab.active{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;border-color:transparent}
+.grid-kpi{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:14px}
+.kpi{padding:15px;border-radius:20px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
+.kpi span{display:block;color:var(--muted);font-size:11px;font-weight:1000;text-transform:uppercase;letter-spacing:.35px}
+.kpi strong{display:block;margin-top:7px;color:var(--blue);font-size:24px}
+.kpi small{display:block;margin-top:5px;color:var(--muted);font-weight:850}
+.section-title{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:18px 0 10px}
+.section-title h2{margin:0;color:var(--blue);font-size:20px}
+.section-title p{margin:3px 0 0;color:var(--muted);font-weight:800;font-size:12px}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.resto-card h3{margin:0 0 10px;color:var(--blue);font-size:18px}
+.metric-list{display:grid;gap:8px}
+.metric-row{display:grid;grid-template-columns:1.15fr .85fr .85fr .85fr;gap:8px;align-items:center;border:1px solid var(--line);border-radius:15px;padding:10px;background:#fbfdff}
+.metric-row.head{background:#102a56;color:#fff;font-weight:1000}
+.metric-row div{font-weight:850}
+.pos{color:var(--success)}.neg{color:var(--danger)}.neutral{color:var(--muted)}
+.table-wrap{overflow:auto;border-radius:18px;border:1px solid var(--line);background:#fff}
+table{width:100%;border-collapse:collapse;min-width:900px}
+th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;font-weight:850}
+th{background:#102a56;color:#fff;font-size:12px;text-transform:uppercase;letter-spacing:.35px}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.status-ok{color:var(--success);font-weight:1000}
+.status-bad{color:var(--danger);font-weight:1000}
+.alert{padding:13px;border-radius:17px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;font-weight:900;margin-bottom:14px}
+.loading{padding:20px;text-align:center;color:var(--muted);font-weight:1000}
+@media(max-width:1100px){.filters{grid-template-columns:1fr 1fr}.grid-kpi{grid-template-columns:1fr 1fr}.compare-grid{grid-template-columns:1fr}}
+@media(max-width:650px){.filters,.grid-kpi{grid-template-columns:1fr}h1{font-size:22px}.metric-row{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <h1>Dashboard Restaurants</h1>
+        <p>CA Restaurant, Uber, Deliveroo, C&C, CA Global, commandes et prévisionnel</p>
+      </div>
+      <div class="badge" id="lastUpdate">Chargement...</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="filters">
+      <div class="field">
+        <label>Période</label>
+        <select id="periodType">
+          <option value="day">Jour</option>
+          <option value="week">Semaine</option>
+          <option value="month">Mois</option>
+          <option value="custom">Dates libres</option>
+        </select>
+      </div>
+
+      <div class="field" id="dayField">
+        <label>Date</label>
+        <input type="date" id="dayDate">
+      </div>
+
+      <div class="field hidden" id="monthField">
+        <label>Mois</label>
+        <input type="month" id="monthDate">
+      </div>
+
+      <div class="field hidden" id="fromField">
+        <label>Du</label>
+        <input type="date" id="dateFrom">
+      </div>
+
+      <div class="field hidden" id="toField">
+        <label>Au</label>
+        <input type="date" id="dateTo">
+      </div>
+
+      <div class="field">
+        <label>Vue</label>
+        <select id="viewType">
+          <option value="all">📊 Toutes les vues</option>
+          <option value="matin">🌞 Service Matin</option>
+          <option value="soir">🌙 Service Soir</option>
+          <option value="journee">📅 Matin + Soir — Journée complète</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Action</label>
+        <button id="refreshBtn">Actualiser</button>
+      </div>
+    </div>
+    <div class="period-note" id="periodNote">Période affichée : —</div>
+  </section>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="performance">📈 Performance</button>
+    <button class="tab" data-tab="commandes">👥 Commandes</button>
+    <button class="tab" data-tab="previsionnel">🎯 Prévisionnel</button>
+    <button class="tab" data-tab="controle">⚠️ Contrôle</button>
+  </div>
+
+  <div id="loading" class="loading card">Chargement des données...</div>
+  <div id="errorBox" class="alert hidden"></div>
+
+  <main id="dashboard" class="hidden">
+    <section id="performanceTab">
+      <div class="grid-kpi">
+        <div class="kpi"><span>CA Global réel</span><strong id="kpiCA">0 €</strong><small id="kpiCAPrev">Prévisionnel : 0 €</small></div>
+        <div class="kpi"><span>CA Restaurant</span><strong id="kpiRestaurant">0 €</strong><small>Bornes & caisse</small></div>
+        <div class="kpi"><span>CA Uber</span><strong id="kpiUber">0 €</strong><small>Livraison</small></div>
+        <div class="kpi"><span>CA Deliveroo</span><strong id="kpiDeliveroo">0 €</strong><small>Livraison</small></div>
+        <div class="kpi"><span>CA C&C</span><strong id="kpiCC">0 €</strong><small>Click & Collect</small></div>
+      </div>
+
+      <div class="section-title">
+        <div><h2>Comparaison des deux restaurants</h2><p>Réel vs prévisionnel par canal</p></div>
+      </div>
+      <div class="compare-grid" id="restaurantCards"></div>
+
+      <div class="section-title">
+        <div><h2>Détail performance</h2><p>Liste filtrée selon la période et la vue sélectionnées</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th><th>Restaurant</th><th>Vue</th>
+              <th>CA Restaurant</th><th>Uber</th><th>Deliveroo</th><th>C&C</th>
+              <th>CA Global</th><th>Prévisionnel</th><th>Écart</th><th>%</th>
+            </tr>
+          </thead>
+          <tbody id="performanceRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="commandesTab" class="hidden">
+      <div class="grid-kpi">
+        <div class="kpi"><span>Commandes totales</span><strong id="kpiCmd">0</strong><small>Deux restaurants</small></div>
+        <div class="kpi"><span>Ticket moyen</span><strong id="kpiTicket">0 €</strong><small>CA global / commandes</small></div>
+        <div class="kpi"><span>Boulogne commandes</span><strong id="kpiCmdB">0</strong><small id="kpiTicketB">Ticket moyen : 0 €</small></div>
+        <div class="kpi"><span>Armentières commandes</span><strong id="kpiCmdA">0</strong><small id="kpiTicketA">Ticket moyen : 0 €</small></div>
+        <div class="kpi"><span>Écart commandes</span><strong id="kpiCmdDiff">0</strong><small>Boulogne - Armentières</small></div>
+      </div>
+      <div class="section-title"><div><h2>Comparaison commandes</h2><p>Nombre de commandes et ticket moyen par restaurant</p></div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>Restaurant</th><th>Vue</th><th>Commandes</th><th>CA Global</th><th>Ticket moyen</th></tr></thead>
+          <tbody id="commandesRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="previsionnelTab" class="hidden">
+      <div class="section-title"><div><h2>Réel vs Prévisionnel</h2><p>CA Restaurant, Uber, Deliveroo, C&C et Global</p></div></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th><th>Restaurant</th><th>Vue</th><th>Canal</th>
+              <th>Réel</th><th>Prévisionnel</th><th>Écart €</th><th>Taux</th>
+            </tr>
+          </thead>
+          <tbody id="previsionnelRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="controleTab" class="hidden">
+      <div class="section-title"><div><h2>Contrôle des 4 rapports par jour</h2><p>Boulogne Matin / Boulogne Soir / Armentières Matin / Armentières Soir</p></div></div>
+      <div id="controleAlert"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>Rapports reçus</th><th>Boulogne Matin</th><th>Boulogne Soir</th><th>Armentières Matin</th><th>Armentières Soir</th><th>Statut</th></tr></thead>
+          <tbody id="controleRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJDn4D1hz8e9hV6xjZxtvhfQNGf_Fs-9cxHNG_eh9pq8sQDEByXGZu8-pNM0KVbeZ45g/exec";
+
+let RAW = { dashboard_service: [], dashboard_journee: [], controle_4_rapports: [], reel_service: [] };
+let CURRENT_ROWS = [];
+let CURRENT_CONTROLE = [];
+
+const RESTO_LABEL = {
+  boulogne: "Boulogne-sur-Mer",
+  armentieres: "Armentières"
+};
+
+function todayISO(){
+  const d = new Date();
+  return d.toISOString().slice(0,10);
+}
+
+function mondayOf(dateStr){
+  const d = new Date(dateStr + "T00:00:00");
+  const day = d.getDay() || 7;
+  d.setDate(d.getDate() - day + 1);
+  return d.toISOString().slice(0,10);
+}
+
+function sundayOf(dateStr){
+  const d = new Date(mondayOf(dateStr) + "T00:00:00");
+  d.setDate(d.getDate() + 6);
+  return d.toISOString().slice(0,10);
+}
+
+function monthBounds(monthStr){
+  const [y,m] = monthStr.split("-").map(Number);
+  const start = new Date(y, m-1, 1);
+  const end = new Date(y, m, 0);
+  return [start.toISOString().slice(0,10), end.toISOString().slice(0,10)];
+}
+
+function fmtEuro(n){ return (Number(n)||0).toLocaleString("fr-FR",{style:"currency",currency:"EUR"}); }
+function fmtNum(n){ return (Number(n)||0).toLocaleString("fr-FR"); }
+function fmtPct(n){ return n === "" || n === null || n === undefined ? "—" : ((Number(n)||0)*100).toLocaleString("fr-FR",{maximumFractionDigits:1})+" %"; }
+function n(v){ const x = Number(String(v ?? "").replace(",", ".")); return isNaN(x) ? 0 : x; }
+function serviceLabel(s){ return s === "matin" ? "Matin" : s === "soir" ? "Soir" : "Matin + Soir"; }
+
+function setDefaults(){
+  const t = todayISO();
+  dayDate.value = t;
+  dateFrom.value = mondayOf(t);
+  dateTo.value = sundayOf(t);
+  monthDate.value = t.slice(0,7);
+}
+
+function updateFilterFields(){
+  const p = periodType.value;
+  dayField.classList.toggle("hidden", p !== "day" && p !== "week");
+  monthField.classList.toggle("hidden", p !== "month");
+  fromField.classList.toggle("hidden", p !== "custom");
+  toField.classList.toggle("hidden", p !== "custom");
+
+  if(p === "week"){
+    dayField.querySelector("label").textContent = "Semaine de référence";
+  } else {
+    dayField.querySelector("label").textContent = "Date";
+  }
+
+  applyFilters();
+}
+
+function getBounds(){
+  const p = periodType.value;
+  if(p === "day"){
+    return [dayDate.value, dayDate.value, "Jour du " + formatDateFR(dayDate.value)];
+  }
+  if(p === "week"){
+    const from = mondayOf(dayDate.value);
+    const to = sundayOf(dayDate.value);
+    return [from, to, "Semaine du " + formatDateFR(from) + " au " + formatDateFR(to)];
+  }
+  if(p === "month"){
+    const [from,to] = monthBounds(monthDate.value);
+    return [from, to, "Mois de " + formatMonthFR(monthDate.value)];
+  }
+  return [dateFrom.value, dateTo.value, "Dates libres du " + formatDateFR(dateFrom.value) + " au " + formatDateFR(dateTo.value)];
+}
+
+function formatDateFR(s){
+  if(!s) return "—";
+  const [y,m,d] = s.split("-");
+  return `${d}/${m}/${y}`;
+}
+
+function formatMonthFR(s){
+  if(!s) return "—";
+  const [y,m] = s.split("-");
+  const d = new Date(Number(y), Number(m)-1, 1);
+  return d.toLocaleDateString("fr-FR", { month:"long", year:"numeric" });
+}
+
+function rowDate(row){ return String(row.date_service || "").slice(0,10); }
+
+function buildRows(){
+  const serviceRows = (RAW.dashboard_service || []).map(r => ({...r, service: r.service || "matin"}));
+  const dayRows = (RAW.dashboard_journee || []).map(r => ({...r, service: "journee"}));
+  return serviceRows.concat(dayRows);
+}
+
+function applyFilters(){
+  const [from,to,label] = getBounds();
+  periodNote.textContent = "Période affichée : " + label;
+  const view = viewType.value;
+
+  CURRENT_ROWS = buildRows().filter(r => {
+    const d = rowDate(r);
+    const inPeriod = d >= from && d <= to;
+    const inView = view === "all" ? true : r.service === view;
+    return inPeriod && inView;
+  });
+
+  CURRENT_CONTROLE = (RAW.controle_4_rapports || []).filter(r => {
+    const d = rowDate(r);
+    return d >= from && d <= to;
+  });
+
+  renderAll();
+}
+
+function sum(rows, key){ return rows.reduce((a,r)=>a+n(r[key]),0); }
+function groupByRestaurant(rows){
+  return rows.reduce((acc,r)=>{
+    const k = r.restaurant_code || r.restaurant || "inconnu";
+    if(!acc[k]) acc[k] = [];
+    acc[k].push(r);
+    return acc;
+  },{});
+}
+
+function renderAll(){
+  renderKPIs();
+  renderRestaurantCards();
+  renderPerformanceTable();
+  renderCommandes();
+  renderPrevisionnel();
+  renderControle();
+}
+
+function renderKPIs(){
+  const ca = sum(CURRENT_ROWS,"ca_canaux_reel");
+  const prev = sum(CURRENT_ROWS,"ca_total_prev");
+  const cmd = sum(CURRENT_ROWS,"commandes_total_reel");
+  kpiCA.textContent = fmtEuro(ca);
+  kpiCAPrev.textContent = "Prévisionnel : " + fmtEuro(prev) + " | Écart : " + fmtEuro(ca-prev);
+  kpiRestaurant.textContent = fmtEuro(sum(CURRENT_ROWS,"ca_restaurant_reel"));
+  kpiUber.textContent = fmtEuro(sum(CURRENT_ROWS,"ca_uber_reel"));
+  kpiDeliveroo.textContent = fmtEuro(sum(CURRENT_ROWS,"ca_deliveroo_reel"));
+  kpiCC.textContent = fmtEuro(sum(CURRENT_ROWS,"ca_cc_reel"));
+  kpiCmd.textContent = fmtNum(cmd);
+  kpiTicket.textContent = fmtEuro(cmd ? ca / cmd : 0);
+
+  const groups = groupByRestaurant(CURRENT_ROWS);
+  const b = groups.boulogne || [];
+  const a = groups.armentieres || [];
+  const cmdB = sum(b,"commandes_total_reel");
+  const cmdA = sum(a,"commandes_total_reel");
+  const caB = sum(b,"ca_canaux_reel");
+  const caA = sum(a,"ca_canaux_reel");
+  kpiCmdB.textContent = fmtNum(cmdB);
+  kpiCmdA.textContent = fmtNum(cmdA);
+  kpiTicketB.textContent = "Ticket moyen : " + fmtEuro(cmdB ? caB / cmdB : 0);
+  kpiTicketA.textContent = "Ticket moyen : " + fmtEuro(cmdA ? caA / cmdA : 0);
+  kpiCmdDiff.textContent = fmtNum(cmdB - cmdA);
+}
+
+function renderRestaurantCards(){
+  const groups = groupByRestaurant(CURRENT_ROWS);
+  const html = ["boulogne","armentieres"].map(code => {
+    const rows = groups[code] || [];
+    const ca = sum(rows,"ca_canaux_reel");
+    const prev = sum(rows,"ca_total_prev");
+    const cmd = sum(rows,"commandes_total_reel");
+    return `<div class="card resto-card">
+      <h3>${RESTO_LABEL[code]}</h3>
+      <div class="metric-list">
+        ${metric("CA Restaurant", sum(rows,"ca_restaurant_reel"), sum(rows,"ca_restaurant_prev"), true)}
+        ${metric("CA Uber", sum(rows,"ca_uber_reel"), sum(rows,"ca_uber_prev"), true)}
+        ${metric("CA Deliveroo", sum(rows,"ca_deliveroo_reel"), sum(rows,"ca_deliveroo_prev"), true)}
+        ${metric("CA C&C", sum(rows,"ca_cc_reel"), sum(rows,"ca_cc_prev"), true)}
+        ${metric("CA Global", ca, prev, true)}
+        ${metric("Commandes", cmd, null, false)}
+        ${metric("Ticket moyen", cmd ? ca/cmd : 0, null, true)}
+      </div>
+    </div>`;
+  }).join("");
+  restaurantCards.innerHTML = html;
+}
+
+function metric(label, real, prev, money){
+  const ecart = prev === null || prev === undefined ? null : real - prev;
+  const cls = ecart === null ? "neutral" : ecart >= 0 ? "pos" : "neg";
+  return `<div class="metric-row">
+    <div>${label}</div>
+    <div>${money ? fmtEuro(real) : fmtNum(real)}</div>
+    <div>${prev === null || prev === undefined ? "—" : (money ? fmtEuro(prev) : fmtNum(prev))}</div>
+    <div class="${cls}">${ecart === null ? "—" : fmtEuro(ecart)}</div>
+  </div>`;
+}
+
+function renderPerformanceTable(){
+  performanceRows.innerHTML = CURRENT_ROWS
+    .sort((a,b)=>rowDate(a).localeCompare(rowDate(b)) || String(a.restaurant).localeCompare(String(b.restaurant)))
+    .map(r=>{
+      const ecart = n(r.ca_canaux_reel)-n(r.ca_total_prev);
+      return `<tr>
+        <td>${formatDateFR(rowDate(r))}</td><td>${r.restaurant || RESTO_LABEL[r.restaurant_code] || ""}</td><td>${serviceLabel(r.service)}</td>
+        <td class="num">${fmtEuro(r.ca_restaurant_reel)}</td>
+        <td class="num">${fmtEuro(r.ca_uber_reel)}</td>
+        <td class="num">${fmtEuro(r.ca_deliveroo_reel)}</td>
+        <td class="num">${fmtEuro(r.ca_cc_reel)}</td>
+        <td class="num">${fmtEuro(r.ca_canaux_reel)}</td>
+        <td class="num">${fmtEuro(r.ca_total_prev)}</td>
+        <td class="num ${ecart>=0?"pos":"neg"}">${fmtEuro(ecart)}</td>
+        <td class="num">${fmtPct(r.taux_ca_total)}</td>
+      </tr>`;
+    }).join("") || `<tr><td colspan="11">Aucune donnée pour cette période.</td></tr>`;
+}
+
+function renderCommandes(){
+  commandesRows.innerHTML = CURRENT_ROWS
+    .map(r=>{
+      const ca = n(r.ca_canaux_reel);
+      const cmd = n(r.commandes_total_reel);
+      return `<tr>
+        <td>${formatDateFR(rowDate(r))}</td><td>${r.restaurant || RESTO_LABEL[r.restaurant_code] || ""}</td><td>${serviceLabel(r.service)}</td>
+        <td class="num">${fmtNum(cmd)}</td><td class="num">${fmtEuro(ca)}</td><td class="num">${fmtEuro(cmd ? ca/cmd : 0)}</td>
+      </tr>`;
+    }).join("") || `<tr><td colspan="6">Aucune donnée commandes.</td></tr>`;
+}
+
+function renderPrevisionnel(){
+  const channels = [
+    ["CA Restaurant","ca_restaurant_reel","ca_restaurant_prev"],
+    ["Uber","ca_uber_reel","ca_uber_prev"],
+    ["Deliveroo","ca_deliveroo_reel","ca_deliveroo_prev"],
+    ["C&C","ca_cc_reel","ca_cc_prev"],
+    ["CA Global","ca_canaux_reel","ca_total_prev"]
+  ];
+  previsionnelRows.innerHTML = CURRENT_ROWS.flatMap(r => channels.map(ch => {
+    const real = n(r[ch[1]]);
+    const prev = n(r[ch[2]]);
+    const ecart = real-prev;
+    return `<tr>
+      <td>${formatDateFR(rowDate(r))}</td><td>${r.restaurant || RESTO_LABEL[r.restaurant_code] || ""}</td><td>${serviceLabel(r.service)}</td><td>${ch[0]}</td>
+      <td class="num">${fmtEuro(real)}</td><td class="num">${fmtEuro(prev)}</td><td class="num ${ecart>=0?"pos":"neg"}">${fmtEuro(ecart)}</td><td class="num">${prev ? fmtPct(real/prev) : "—"}</td>
+    </tr>`;
+  })).join("") || `<tr><td colspan="8">Aucune donnée prévisionnelle.</td></tr>`;
+}
+
+function renderControle(){
+  const incomplets = CURRENT_CONTROLE.filter(r => String(r.statut).toLowerCase() !== "complet");
+  controleAlert.innerHTML = incomplets.length
+    ? `<div class="alert">⚠️ ${incomplets.length} jour(s) avec rapport manquant sur la période.</div>`
+    : `<div class="period-note">✅ Tous les rapports sont complets sur la période.</div>`;
+
+  controleRows.innerHTML = CURRENT_CONTROLE.map(r => {
+    const ok = String(r.statut).toLowerCase() === "complet";
+    return `<tr>
+      <td>${formatDateFR(rowDate(r))}</td><td>${r.rapports_recus || 0} / ${r.rapports_attendus || 4}</td>
+      <td>${status(r.boulogne_matin)}</td><td>${status(r.boulogne_soir)}</td>
+      <td>${status(r.armentieres_matin)}</td><td>${status(r.armentieres_soir)}</td>
+      <td class="${ok?"status-ok":"status-bad"}">${r.statut || ""}</td>
+    </tr>`;
+  }).join("") || `<tr><td colspan="7">Aucune donnée contrôle.</td></tr>`;
+}
+
+function status(v){
+  const ok = String(v).toLowerCase() === "ok";
+  return `<span class="${ok?"status-ok":"status-bad"}">${v || "Manquant"}</span>`;
+}
+
+function switchTab(name){
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active", b.dataset.tab === name));
+  performanceTab.classList.toggle("hidden", name !== "performance");
+  commandesTab.classList.toggle("hidden", name !== "commandes");
+  previsionnelTab.classList.toggle("hidden", name !== "previsionnel");
+  controleTab.classList.toggle("hidden", name !== "controle");
+}
+
+async function loadData(){
+  loading.classList.remove("hidden");
+  dashboard.classList.add("hidden");
+  errorBox.classList.add("hidden");
+
+  try {
+    const res = await fetch(APPS_SCRIPT_URL + "?action=dashboard&ts=" + Date.now());
+    const data = await res.json();
+    if(!data.ok) throw new Error(data.error || "Erreur Apps Script");
+
+    RAW = data;
+    lastUpdate.textContent = "Dernière actualisation : " + new Date().toLocaleString("fr-FR");
+    loading.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+    applyFilters();
+  } catch(e) {
+    loading.classList.add("hidden");
+    errorBox.classList.remove("hidden");
+    errorBox.textContent = "Erreur chargement dashboard : " + e.message + ". Vérifie que le déploiement Apps Script est bien en accès public.";
+  }
+}
+
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.tab)));
+periodType.addEventListener("change", updateFilterFields);
+viewType.addEventListener("change", applyFilters);
+dayDate.addEventListener("change", applyFilters);
+monthDate.addEventListener("change", applyFilters);
+dateFrom.addEventListener("change", applyFilters);
+dateTo.addEventListener("change", applyFilters);
+refreshBtn.addEventListener("click", loadData);
+
+setDefaults();
+updateFilterFields();
+loadData();
+</script>
+</body>
+</html>
