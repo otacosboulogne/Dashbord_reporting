@@ -3,86 +3,511 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dashboard Restaurants — CA & Commandes</title>
+<title>Dashboard Restaurants — Complet</title>
 <style>
 :root{
-  --orange:#ff7900;--orange2:#ffb000;--blue:#102a56;--navy:#071528;
-  --bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#667085;--line:#dbe4f0;
-  --success:#16a34a;--danger:#dc2626;--warn:#f59e0b;--shadow:0 16px 38px rgba(16,42,86,.10);
+  --orange:#ff7900;
+  --orange2:#ffb000;
+  --blue:#102a56;
+  --navy:#071528;
+  --bg:#f4f7fb;
+  --card:#ffffff;
+  --text:#172033;
+  --muted:#667085;
+  --line:#dbe4f0;
+  --soft:#f8fafc;
+  --success:#16a34a;
+  --danger:#dc2626;
+  --warn:#f59e0b;
+  --shadow:0 16px 38px rgba(16,42,86,.10);
   --radius:22px;
 }
-*{box-sizing:border-box}
-html,body{margin:0;padding:0}
+
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  padding:0;
+}
+
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;
   background:linear-gradient(180deg,#eef4ff 0%,#fff8ef 48%,#f8fafc 100%);
-  color:var(--text);font-size:14px;
+  color:var(--text);
+  font-size:14px;
 }
-.app{max-width:1380px;margin:auto;padding:16px 12px 60px}
+
+.app{
+  max-width:1450px;
+  margin:auto;
+  padding:16px 12px 70px;
+}
+
 .hero{
-  background:linear-gradient(135deg,var(--blue),var(--navy));color:#fff;border-radius:30px;
-  padding:22px;box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden;position:relative;
+  background:linear-gradient(135deg,var(--blue),var(--navy));
+  color:#ffffff;
+  border-radius:30px;
+  padding:22px;
+  box-shadow:var(--shadow);
+  margin-bottom:14px;
+  overflow:hidden;
+  position:relative;
 }
-.hero:before{content:"";position:absolute;right:-80px;top:-90px;width:300px;height:300px;border-radius:999px;background:rgba(255,121,0,.22)}
-.hero-inner{position:relative;z-index:1;display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}
-h1{margin:0;font-size:26px;line-height:1.05}
-.hero p{margin:7px 0 0;color:#cbd5e1;font-weight:800;font-size:13px}
-.badge{display:inline-flex;align-items:center;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);padding:9px 12px;font-weight:1000;font-size:12px}
-.card,.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
-.panel{padding:16px;margin-bottom:14px}
-.card{padding:15px}
+
+.hero:before{
+  content:"";
+  position:absolute;
+  right:-80px;
+  top:-90px;
+  width:300px;
+  height:300px;
+  border-radius:999px;
+  background:rgba(255,121,0,.22);
+}
+
+.hero-inner{
+  position:relative;
+  z-index:1;
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  align-items:flex-start;
+  flex-wrap:wrap;
+}
+
+h1{
+  margin:0;
+  font-size:27px;
+  line-height:1.05;
+}
+
+.hero p{
+  margin:7px 0 0;
+  color:#cbd5e1;
+  font-weight:800;
+  font-size:13px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);
+  padding:9px 12px;
+  font-weight:1000;
+  font-size:12px;
+}
+
+.card,
+.panel{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+
+.panel{
+  padding:16px;
+  margin-bottom:14px;
+}
+
+.card{
+  padding:15px;
+}
+
 .filters{
-  display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr 1fr;gap:12px;align-items:end;
+  display:grid;
+  grid-template-columns:1.05fr 1fr 1fr 1fr 1fr 1fr;
+  gap:12px;
+  align-items:end;
 }
-.field{display:flex;flex-direction:column;gap:6px}
-label{font-size:12px;color:var(--blue);font-weight:1000;text-transform:uppercase;letter-spacing:.3px}
-input,select,button{
-  width:100%;border:1.5px solid var(--line);border-radius:18px;background:#fff;color:#111827;
-  min-height:50px;padding:12px 14px;font:inherit;font-size:16px;font-weight:900;outline:none;
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
 }
-input:focus,select:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,121,0,.13)}
-button{border:0;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;cursor:pointer}
-button.secondary{background:#eef2f7;color:var(--blue)}
-.hidden{display:none!important}
-.period-note{margin-top:12px;padding:11px 13px;border-radius:16px;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;font-weight:900}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.tab{border:1px solid var(--line);background:#fff;color:var(--blue);border-radius:999px;padding:11px 14px;font-weight:1000;cursor:pointer}
-.tab.active{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;border-color:transparent}
-.grid-kpi{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:14px}
-.kpi{padding:15px;border-radius:20px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
-.kpi span{display:block;color:var(--muted);font-size:11px;font-weight:1000;text-transform:uppercase;letter-spacing:.35px}
-.kpi strong{display:block;margin-top:7px;color:var(--blue);font-size:24px}
-.kpi small{display:block;margin-top:5px;color:var(--muted);font-weight:850}
-.section-title{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:18px 0 10px}
-.section-title h2{margin:0;color:var(--blue);font-size:20px}
-.section-title p{margin:3px 0 0;color:var(--muted);font-weight:800;font-size:12px}
-.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-.resto-card h3{margin:0 0 10px;color:var(--blue);font-size:18px}
-.metric-list{display:grid;gap:8px}
-.metric-row{display:grid;grid-template-columns:1.15fr .85fr .85fr .85fr;gap:8px;align-items:center;border:1px solid var(--line);border-radius:15px;padding:10px;background:#fbfdff}
-.metric-row.head{background:#102a56;color:#fff;font-weight:1000}
-.metric-row div{font-weight:850}
-.pos{color:var(--success)}.neg{color:var(--danger)}.neutral{color:var(--muted)}
-.table-wrap{overflow:auto;border-radius:18px;border:1px solid var(--line);background:#fff}
-table{width:100%;border-collapse:collapse;min-width:900px}
-th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;font-weight:850}
-th{background:#102a56;color:#fff;font-size:12px;text-transform:uppercase;letter-spacing:.35px}
-td.num{text-align:right;font-variant-numeric:tabular-nums}
-.status-ok{color:var(--success);font-weight:1000}
-.status-bad{color:var(--danger);font-weight:1000}
-.alert{padding:13px;border-radius:17px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;font-weight:900;margin-bottom:14px}
-.loading{padding:20px;text-align:center;color:var(--muted);font-weight:1000}
-@media(max-width:1100px){.filters{grid-template-columns:1fr 1fr}.grid-kpi{grid-template-columns:1fr 1fr}.compare-grid{grid-template-columns:1fr}}
-@media(max-width:650px){.filters,.grid-kpi{grid-template-columns:1fr}h1{font-size:22px}.metric-row{grid-template-columns:1fr 1fr}}
+
+label{
+  font-size:12px;
+  color:var(--blue);
+  font-weight:1000;
+  text-transform:uppercase;
+  letter-spacing:.3px;
+}
+
+input,
+select,
+button{
+  width:100%;
+  border:1.5px solid var(--line);
+  border-radius:18px;
+  background:#ffffff;
+  color:#111827;
+  min-height:50px;
+  padding:12px 14px;
+  font:inherit;
+  font-size:15px;
+  font-weight:900;
+  outline:none;
+}
+
+input:focus,
+select:focus{
+  border-color:var(--orange);
+  box-shadow:0 0 0 3px rgba(255,121,0,.13);
+}
+
+button{
+  border:0;
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  color:#ffffff;
+  cursor:pointer;
+}
+
+button.secondary{
+  background:#eef2f7;
+  color:var(--blue);
+}
+
+.hidden{
+  display:none!important;
+}
+
+.period-note{
+  margin-top:12px;
+  padding:11px 13px;
+  border-radius:16px;
+  background:#eff6ff;
+  border:1px solid #bfdbfe;
+  color:#1d4ed8;
+  font-weight:900;
+}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+
+.tab{
+  border:1px solid var(--line);
+  background:#ffffff;
+  color:var(--blue);
+  border-radius:999px;
+  padding:11px 14px;
+  font-weight:1000;
+  cursor:pointer;
+  width:auto;
+  min-height:auto;
+}
+
+.tab.active{
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  color:#ffffff;
+  border-color:transparent;
+}
+
+.grid-kpi{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.grid-kpi.four{
+  grid-template-columns:repeat(4,1fr);
+}
+
+.grid-kpi.three{
+  grid-template-columns:repeat(3,1fr);
+}
+
+.kpi{
+  padding:15px;
+  border-radius:20px;
+  background:#ffffff;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+}
+
+.kpi span{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:1000;
+  text-transform:uppercase;
+  letter-spacing:.35px;
+}
+
+.kpi strong{
+  display:block;
+  margin-top:7px;
+  color:var(--blue);
+  font-size:24px;
+}
+
+.kpi small{
+  display:block;
+  margin-top:5px;
+  color:var(--muted);
+  font-weight:850;
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  margin:18px 0 10px;
+}
+
+.section-title h2{
+  margin:0;
+  color:var(--blue);
+  font-size:20px;
+}
+
+.section-title p{
+  margin:3px 0 0;
+  color:var(--muted);
+  font-weight:800;
+  font-size:12px;
+}
+
+.compare-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:14px;
+  margin-bottom:14px;
+}
+
+.resto-card h3{
+  margin:0 0 10px;
+  color:var(--blue);
+  font-size:18px;
+}
+
+.metric-list{
+  display:grid;
+  gap:8px;
+}
+
+.metric-row{
+  display:grid;
+  grid-template-columns:1.15fr .85fr .85fr .85fr .75fr;
+  gap:8px;
+  align-items:center;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:10px;
+  background:#fbfdff;
+}
+
+.metric-row.head{
+  background:#102a56;
+  color:#ffffff;
+  font-weight:1000;
+}
+
+.metric-row div{
+  font-weight:850;
+}
+
+.pos{
+  color:var(--success);
+}
+
+.neg{
+  color:var(--danger);
+}
+
+.neutral{
+  color:var(--muted);
+}
+
+.table-wrap{
+  overflow:auto;
+  border-radius:18px;
+  border:1px solid var(--line);
+  background:#ffffff;
+  margin-bottom:14px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:980px;
+}
+
+th,
+td{
+  padding:12px 10px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+  font-weight:850;
+  vertical-align:top;
+}
+
+th{
+  background:#102a56;
+  color:#ffffff;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.35px;
+  position:sticky;
+  top:0;
+  z-index:2;
+}
+
+td.num{
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+}
+
+.status-ok{
+  color:var(--success);
+  font-weight:1000;
+}
+
+.status-warn{
+  color:var(--warn);
+  font-weight:1000;
+}
+
+.status-bad{
+  color:var(--danger);
+  font-weight:1000;
+}
+
+.alert{
+  padding:13px;
+  border-radius:17px;
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  color:#9a3412;
+  font-weight:900;
+  margin-bottom:14px;
+}
+
+.loading{
+  padding:20px;
+  text-align:center;
+  color:var(--muted);
+  font-weight:1000;
+}
+
+.chart-card{
+  padding:16px;
+  margin-bottom:14px;
+}
+
+.chart{
+  width:100%;
+  min-height:330px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:linear-gradient(180deg,#ffffff,#fbfdff);
+  overflow:hidden;
+}
+
+.chart svg{
+  width:100%;
+  height:330px;
+  display:block;
+}
+
+.chart-title{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.chart-title h3{
+  margin:0;
+  color:var(--blue);
+  font-size:18px;
+}
+
+.chart-title span{
+  color:var(--muted);
+  font-weight:900;
+  font-size:12px;
+}
+
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border-radius:999px;
+  padding:7px 10px;
+  font-weight:1000;
+  font-size:12px;
+  background:#eef4ff;
+  color:var(--blue);
+}
+
+.note{
+  margin-bottom:14px;
+  border-radius:16px;
+  padding:12px;
+  background:#eff6ff;
+  border:1px solid #bfdbfe;
+  color:#1d4ed8;
+  font-weight:900;
+}
+
+@media(max-width:1250px){
+  .filters{
+    grid-template-columns:1fr 1fr 1fr;
+  }
+  .grid-kpi,
+  .grid-kpi.four,
+  .grid-kpi.three{
+    grid-template-columns:1fr 1fr;
+  }
+  .compare-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:700px){
+  .filters,
+  .grid-kpi,
+  .grid-kpi.four,
+  .grid-kpi.three{
+    grid-template-columns:1fr;
+  }
+  h1{
+    font-size:22px;
+  }
+  .metric-row{
+    grid-template-columns:1fr 1fr;
+  }
+  .tab{
+    width:100%;
+  }
+}
 </style>
 </head>
 <body>
+
 <div class="app">
+
   <section class="hero">
     <div class="hero-inner">
       <div>
         <h1>Dashboard Restaurants</h1>
-        <p>CA Restaurant, Uber, Deliveroo, C&C, CA Global, commandes et prévisionnel</p>
+        <p>CA, commandes, prévisionnel, boissons, desserts, frites, service, RH, qualité, pertes et contrôle</p>
       </div>
       <div class="badge" id="lastUpdate">Chargement...</div>
     </div>
@@ -90,6 +515,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
 
   <section class="panel">
     <div class="filters">
+
       <div class="field">
         <label>Période</label>
         <select id="periodType">
@@ -121,12 +547,21 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
       </div>
 
       <div class="field">
+        <label>Restaurant</label>
+        <select id="restaurantFilter">
+          <option value="all">Tous les restaurants</option>
+          <option value="boulogne">Boulogne-sur-Mer</option>
+          <option value="armentieres">Armentières</option>
+        </select>
+      </div>
+
+      <div class="field">
         <label>Vue</label>
         <select id="viewType">
-          <option value="all">📊 Toutes les vues</option>
-          <option value="matin">🌞 Service Matin</option>
-          <option value="soir">🌙 Service Soir</option>
-          <option value="journee">📅 Matin + Soir — Journée complète</option>
+          <option value="all">Toutes les vues</option>
+          <option value="matin">Service Matin</option>
+          <option value="soir">Service Soir</option>
+          <option value="journee">Matin + Soir — Journée complète</option>
         </select>
       </div>
 
@@ -134,21 +569,30 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
         <label>Action</label>
         <button id="refreshBtn">Actualiser</button>
       </div>
+
     </div>
+
     <div class="period-note" id="periodNote">Période affichée : —</div>
   </section>
 
   <div class="tabs">
-    <button class="tab active" data-tab="performance">📈 Performance</button>
-    <button class="tab" data-tab="commandes">👥 Commandes</button>
-    <button class="tab" data-tab="previsionnel">🎯 Prévisionnel</button>
-    <button class="tab" data-tab="controle">⚠️ Contrôle</button>
+    <button class="tab active" data-tab="performance">Performance</button>
+    <button class="tab" data-tab="commandes">Commandes</button>
+    <button class="tab" data-tab="previsionnel">Prévisionnel</button>
+    <button class="tab" data-tab="analyse">Analyse commerciale</button>
+    <button class="tab" data-tab="frites">Consommation frites</button>
+    <button class="tab" data-tab="service">Service</button>
+    <button class="tab" data-tab="rh">RH</button>
+    <button class="tab" data-tab="qualite">Qualité service</button>
+    <button class="tab" data-tab="pertes">Pertes</button>
+    <button class="tab" data-tab="controle">Contrôle</button>
   </div>
 
   <div id="loading" class="loading card">Chargement des données...</div>
   <div id="errorBox" class="alert hidden"></div>
 
   <main id="dashboard" class="hidden">
+
     <section id="performanceTab">
       <div class="grid-kpi">
         <div class="kpi"><span>CA Global réel</span><strong id="kpiCA">0 €</strong><small id="kpiCAPrev">Prévisionnel : 0 €</small></div>
@@ -159,20 +603,36 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
       </div>
 
       <div class="section-title">
-        <div><h2>Comparaison des deux restaurants</h2><p>Réel vs prévisionnel par canal</p></div>
+        <div>
+          <h2>Comparaison globale et par restaurant</h2>
+          <p>Troisième tableau global + Boulogne + Armentières, avec Réel / Prévisionnel / Écart / Taux</p>
+        </div>
       </div>
+
       <div class="compare-grid" id="restaurantCards"></div>
 
       <div class="section-title">
-        <div><h2>Détail performance</h2><p>Liste filtrée selon la période et la vue sélectionnées</p></div>
+        <div>
+          <h2>Détail performance</h2>
+          <p>Liste filtrée selon la période et la vue sélectionnées</p>
+        </div>
       </div>
+
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Date</th><th>Restaurant</th><th>Vue</th>
-              <th>CA Restaurant</th><th>Uber</th><th>Deliveroo</th><th>C&C</th>
-              <th>CA Global</th><th>Prévisionnel</th><th>Écart</th><th>%</th>
+              <th>Date</th>
+              <th>Restaurant</th>
+              <th>Vue</th>
+              <th>CA Restaurant</th>
+              <th>Uber</th>
+              <th>Deliveroo</th>
+              <th>C&C</th>
+              <th>CA Global</th>
+              <th>Prévisionnel</th>
+              <th>Écart</th>
+              <th>%</th>
             </tr>
           </thead>
           <tbody id="performanceRows"></tbody>
@@ -188,23 +648,51 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
         <div class="kpi"><span>Armentières commandes</span><strong id="kpiCmdA">0</strong><small id="kpiTicketA">Ticket moyen : 0 €</small></div>
         <div class="kpi"><span>Écart commandes</span><strong id="kpiCmdDiff">0</strong><small>Boulogne - Armentières</small></div>
       </div>
-      <div class="section-title"><div><h2>Comparaison commandes</h2><p>Nombre de commandes et ticket moyen par restaurant</p></div></div>
+
+      <div class="section-title">
+        <div>
+          <h2>Comparaison commandes</h2>
+          <p>Nombre de commandes et ticket moyen par restaurant</p>
+        </div>
+      </div>
+
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Date</th><th>Restaurant</th><th>Vue</th><th>Commandes</th><th>CA Global</th><th>Ticket moyen</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Restaurant</th>
+              <th>Vue</th>
+              <th>Commandes</th>
+              <th>CA Global</th>
+              <th>Ticket moyen</th>
+            </tr>
+          </thead>
           <tbody id="commandesRows"></tbody>
         </table>
       </div>
     </section>
 
     <section id="previsionnelTab" class="hidden">
-      <div class="section-title"><div><h2>Réel vs Prévisionnel</h2><p>CA Restaurant, Uber, Deliveroo, C&C et Global</p></div></div>
+      <div class="section-title">
+        <div>
+          <h2>Réel vs Prévisionnel</h2>
+          <p>CA Restaurant, Uber, Deliveroo, C&C et Global</p>
+        </div>
+      </div>
+
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Date</th><th>Restaurant</th><th>Vue</th><th>Canal</th>
-              <th>Réel</th><th>Prévisionnel</th><th>Écart €</th><th>Taux</th>
+              <th>Date</th>
+              <th>Restaurant</th>
+              <th>Vue</th>
+              <th>Canal</th>
+              <th>Réel</th>
+              <th>Prévisionnel</th>
+              <th>Écart €</th>
+              <th>Taux</th>
             </tr>
           </thead>
           <tbody id="previsionnelRows"></tbody>
@@ -212,34 +700,415 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
       </div>
     </section>
 
-    <section id="controleTab" class="hidden">
-      <div class="section-title"><div><h2>Contrôle des 4 rapports par jour</h2><p>Boulogne Matin / Boulogne Soir / Armentières Matin / Armentières Soir</p></div></div>
-      <div id="controleAlert"></div>
+    <section id="analyseTab" class="hidden">
+      <div class="grid-kpi four">
+        <div class="kpi"><span>CA Boissons</span><strong id="kpiCaBoissons">0 €</strong><small id="kpiPctCaBoissons">% du CA : 0 %</small></div>
+        <div class="kpi"><span>Tickets avec boissons</span><strong id="kpiQteBoissons">0</strong><small id="kpiPctTicketBoissons">% commandes : 0 %</small></div>
+        <div class="kpi"><span>CA Desserts</span><strong id="kpiCaDesserts">0 €</strong><small id="kpiPctCaDesserts">% du CA : 0 %</small></div>
+        <div class="kpi"><span>Tickets avec desserts</span><strong id="kpiQteDesserts">0</strong><small id="kpiPctTicketDesserts">% commandes : 0 %</small></div>
+      </div>
+
+      <div class="section-title">
+        <div>
+          <h2>Ticket moyen par canal</h2>
+          <p>Restaurant, Uber, Deliveroo, Click & Collect et Global</p>
+        </div>
+      </div>
+
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Date</th><th>Rapports reçus</th><th>Boulogne Matin</th><th>Boulogne Soir</th><th>Armentières Matin</th><th>Armentières Soir</th><th>Statut</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Restaurant</th>
+              <th>Vue</th>
+              <th>Ticket Restaurant</th>
+              <th>Ticket Uber</th>
+              <th>Ticket Deliveroo</th>
+              <th>Ticket C&C</th>
+              <th>Ticket global</th>
+            </tr>
+          </thead>
+          <tbody id="ticketCanalRows"></tbody>
+        </table>
+      </div>
+
+      <div class="section-title">
+        <div>
+          <h2>Boissons et desserts</h2>
+          <p>CA, quantité, % par commande et % du CA</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Restaurant</th>
+              <th>Vue</th>
+              <th>Famille</th>
+              <th>CA</th>
+              <th>Quantité</th>
+              <th>% commandes</th>
+              <th>% du CA</th>
+            </tr>
+          </thead>
+          <tbody id="boissonsDessertsRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="fritesTab" class="hidden">
+      <div class="grid-kpi four">
+        <div class="kpi"><span>Objectif frites</span><strong>2,7 %</strong><small>Objectif fixe</small></div>
+        <div class="kpi"><span>Prix kilo</span><strong>1,49 €</strong><small>Prix utilisé</small></div>
+        <div class="kpi"><span>Consommation kg</span><strong id="kpiFritesKg">0 kg</strong><small id="kpiFritesEcartKg">Écart kg : 0</small></div>
+        <div class="kpi"><span>% réel frites</span><strong id="kpiFritesPct">0 %</strong><small id="kpiFritesStatut">Statut : —</small></div>
+      </div>
+
+      <div class="section-title">
+        <div>
+          <h2>Consommation frites</h2>
+          <p>Pliage matin et pliage soir sont à la fin du tableau</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Restaurant</th>
+              <th>CA TTC</th>
+              <th>CA HT</th>
+              <th>Stock initial hors livraison</th>
+              <th>Livraison kg</th>
+              <th>Stock disponible matin</th>
+              <th>Stock final soir</th>
+              <th>Consommation frites kg</th>
+              <th>Objectif kg</th>
+              <th>Écart kg</th>
+              <th>Coût réel frites</th>
+              <th>% réel frites</th>
+              <th>Objectif %</th>
+              <th>Écart %</th>
+              <th>Écart €</th>
+              <th>Statut</th>
+              <th>Pliage matin</th>
+              <th>Pliage soir</th>
+            </tr>
+          </thead>
+          <tbody id="fritesRows"></tbody>
+        </table>
+      </div>
+
+      <div class="card chart-card">
+        <div class="chart-title">
+          <div>
+            <h3>Évolution mensuelle frites</h3>
+            <span id="fritesChartNote">Graphique figé sur le mois sélectionné</span>
+          </div>
+          <span class="pill">Courbe % réel / objectif 2,7 %</span>
+        </div>
+        <div class="chart" id="fritesChart"></div>
+      </div>
+    </section>
+
+    <section id="serviceTab" class="hidden">
+      <div class="grid-kpi four">
+        <div class="kpi"><span>Temps attente max</span><strong id="kpiAttenteMax">0 min</strong><small>Sur période</small></div>
+        <div class="kpi"><span>Réductions</span><strong id="kpiNbReductions">0</strong><small id="kpiMontantReductions">0 €</small></div>
+        <div class="kpi"><span>Commandes refaites</span><strong id="kpiNbRefaits">0</strong><small id="kpiMontantRefaits">0 €</small></div>
+        <div class="kpi"><span>Alertes attente</span><strong id="kpiAlertesAttente">0</strong><small>Plus de 10 minutes</small></div>
+      </div>
+
+      <div class="section-title">
+        <div>
+          <h2>Temps d’attente</h2>
+          <p>Deux restaurants, matin et soir</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Restaurant</th>
+              <th>Service</th>
+              <th>Temps attente max</th>
+              <th>Statut</th>
+              <th>Explication</th>
+            </tr>
+          </thead>
+          <tbody id="attenteRows"></tbody>
+        </table>
+      </div>
+
+      <div class="section-title">
+        <div>
+          <h2>Réductions appliquées</h2>
+          <p>Toutes les informations de l’onglet reductions</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Restaurant</th>
+              <th>Service</th>
+              <th>N° commande</th>
+              <th>Montant</th>
+              <th>Explication</th>
+            </tr>
+          </thead>
+          <tbody id="reductionsRows"></tbody>
+        </table>
+      </div>
+
+      <div class="section-title">
+        <div>
+          <h2>Commandes refaites client</h2>
+          <p>Toutes les informations de l’onglet refaits</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Restaurant</th>
+              <th>Service</th>
+              <th>N° commande</th>
+              <th>Article</th>
+              <th>Montant</th>
+              <th>Explication</th>
+            </tr>
+          </thead>
+          <tbody id="refaitsRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="rhTab" class="hidden">
+      <div class="grid-kpi four">
+        <div class="kpi"><span>Heures théoriques</span><strong id="kpiHeuresPrevues">0 h</strong><small>Planning</small></div>
+        <div class="kpi"><span>Heures réelles</span><strong id="kpiHeuresReelles">0 h</strong><small>Réel</small></div>
+        <div class="kpi"><span>Heures supp</span><strong id="kpiHeuresSupp">0 h</strong><small>Supplémentaires</small></div>
+        <div class="kpi"><span>Écart heures</span><strong id="kpiEcartHeures">0 h</strong><small>Réel - prévu</small></div>
+      </div>
+
+      <div class="section-title">
+        <div>
+          <h2>RH — heures théoriques / réelles / supp</h2>
+          <p>Deux restaurants avec temps d’attente et explication</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Restaurant</th>
+              <th>Service</th>
+              <th>Heures théoriques</th>
+              <th>Heures réelles</th>
+              <th>Heures supp</th>
+              <th>Écart heures</th>
+              <th>Temps attente</th>
+              <th>Explication attente</th>
+            </tr>
+          </thead>
+          <tbody id="rhRows"></tbody>
+        </table>
+      </div>
+
+      <div class="section-title">
+        <div>
+          <h2>Détail heures supplémentaires</h2>
+          <p>Nom, début, fin, heures et motif</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Restaurant</th>
+              <th>Service</th>
+              <th>Nom</th>
+              <th>Début</th>
+              <th>Fin</th>
+              <th>Heures supp</th>
+              <th>Motif</th>
+            </tr>
+          </thead>
+          <tbody id="heuresSuppRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="qualiteTab" class="hidden">
+      <div class="grid-kpi four">
+        <div class="kpi"><span>Indice moyen</span><strong id="kpiIndiceService">0 / 5</strong><small>Appréciation service</small></div>
+        <div class="kpi"><span>Meilleure note</span><strong id="kpiBestService">0 / 5</strong><small>Sur période</small></div>
+        <div class="kpi"><span>Plus mauvaise note</span><strong id="kpiWorstService">0 / 5</strong><small>Sur période</small></div>
+        <div class="kpi"><span>Notes faibles</span><strong id="kpiNotesFaibles">0</strong><small>Question notée &lt; 4</small></div>
+      </div>
+
+      <div class="section-title">
+        <div>
+          <h2>Appréciation du service</h2>
+          <p>6 questions + explications si mauvaise note</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Restaurant</th>
+              <th>Service</th>
+              <th>Fluidité</th>
+              <th>Qualité préparation</th>
+              <th>Satisfaction client</th>
+              <th>Placement</th>
+              <th>Motivation équipe</th>
+              <th>Récupération service</th>
+              <th>Indice</th>
+              <th>Explications si mauvais</th>
+              <th>Point fort</th>
+              <th>Amélioration</th>
+            </tr>
+          </thead>
+          <tbody id="qualiteRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="pertesTab" class="hidden">
+      <div class="grid-kpi four">
+        <div class="kpi"><span>Total erreurs + pertes</span><strong id="kpiPertesTotal">0 €</strong><small>Période filtrée</small></div>
+        <div class="kpi"><span>Nombre erreurs</span><strong id="kpiNbErreurs">0</strong><small>Tickets / produits</small></div>
+        <div class="kpi"><span>Boulogne pertes</span><strong id="kpiPertesB">0 €</strong><small>Total</small></div>
+        <div class="kpi"><span>Armentières pertes</span><strong id="kpiPertesA">0 €</strong><small>Total</small></div>
+      </div>
+
+      <div class="section-title">
+        <div>
+          <h2>Pertes matin, soir réel et journée</h2>
+          <p>Soir réel = rapport soir cumulatif - rapport matin</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Restaurant</th>
+              <th>Vue</th>
+              <th>Nombre erreurs</th>
+              <th>Montant erreurs</th>
+              <th>Montant pertes</th>
+              <th>Total erreurs + pertes</th>
+            </tr>
+          </thead>
+          <tbody id="pertesRows"></tbody>
+        </table>
+      </div>
+
+      <div class="card chart-card">
+        <div class="chart-title">
+          <div>
+            <h3>Évolution mensuelle des pertes</h3>
+            <span id="pertesChartNote">Graphique figé sur le mois sélectionné</span>
+          </div>
+          <span class="pill">Total erreurs + pertes par jour</span>
+        </div>
+        <div class="chart" id="pertesChart"></div>
+      </div>
+    </section>
+
+    <section id="controleTab" class="hidden">
+      <div class="section-title">
+        <div>
+          <h2>Contrôle des 4 rapports par jour</h2>
+          <p>Boulogne Matin / Boulogne Soir / Armentières Matin / Armentières Soir</p>
+        </div>
+      </div>
+
+      <div id="controleAlert"></div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Rapports reçus</th>
+              <th>Boulogne Matin</th>
+              <th>Boulogne Soir</th>
+              <th>Armentières Matin</th>
+              <th>Armentières Soir</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
           <tbody id="controleRows"></tbody>
         </table>
       </div>
     </section>
+
   </main>
+
 </div>
 
 <script>
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJDn4D1hz8e9hV6xjZxtvhfQNGf_Fs-9cxHNG_eh9pq8sQDEByXGZu8-pNM0KVbeZ45g/exec";
 
-let RAW = { dashboard_service: [], dashboard_journee: [], controle_4_rapports: [], reel_service: [] };
+const FRITES_OBJECTIF_PCT = 2.7;
+const FRITES_PRIX_KG = 1.49;
+
+let RAW = {
+  dashboard_service: [],
+  dashboard_journee: [],
+  controle_4_rapports: [],
+  reel_service: [],
+  ca: [],
+  stocks: [],
+  rh: [],
+  heures_supp: [],
+  evaluation: [],
+  reductions: [],
+  refaits: [],
+  pertes: []
+};
+
 let CURRENT_ROWS = [];
 let CURRENT_CONTROLE = [];
+let CURRENT_COMMERCIAL = [];
+let CURRENT_FRITES = [];
+let CURRENT_PERTES = [];
 
 const RESTO_LABEL = {
   boulogne: "Boulogne-sur-Mer",
   armentieres: "Armentières"
 };
 
+function $(id){
+  return document.getElementById(id);
+}
+
 function todayISO(){
   const d = new Date();
-  return d.toISOString().slice(0,10);
+  const tz = d.getTimezoneOffset() * 60000;
+  return new Date(d.getTime() - tz).toISOString().slice(0,10);
 }
 
 function mondayOf(dateStr){
@@ -256,17 +1125,185 @@ function sundayOf(dateStr){
 }
 
 function monthBounds(monthStr){
-  const [y,m] = monthStr.split("-").map(Number);
-  const start = new Date(y, m-1, 1);
+  const parts = String(monthStr || todayISO().slice(0,7)).split("-");
+  const y = Number(parts[0]);
+  const m = Number(parts[1]);
+  const start = new Date(y, m - 1, 1);
   const end = new Date(y, m, 0);
-  return [start.toISOString().slice(0,10), end.toISOString().slice(0,10)];
+  return [
+    start.toISOString().slice(0,10),
+    end.toISOString().slice(0,10)
+  ];
 }
 
-function fmtEuro(n){ return (Number(n)||0).toLocaleString("fr-FR",{style:"currency",currency:"EUR"}); }
-function fmtNum(n){ return (Number(n)||0).toLocaleString("fr-FR"); }
-function fmtPct(n){ return n === "" || n === null || n === undefined ? "—" : ((Number(n)||0)*100).toLocaleString("fr-FR",{maximumFractionDigits:1})+" %"; }
-function n(v){ const x = Number(String(v ?? "").replace(",", ".")); return isNaN(x) ? 0 : x; }
-function serviceLabel(s){ return s === "matin" ? "Matin" : s === "soir" ? "Soir" : "Matin + Soir"; }
+function selectedMonthBounds(){
+  if(periodType.value === "month"){
+    return monthBounds(monthDate.value);
+  }
+
+  const base = dayDate.value || dateFrom.value || todayISO();
+  return monthBounds(base.slice(0,7));
+}
+
+function selectedMonthLabel(){
+  const bounds = selectedMonthBounds();
+  return formatMonthFR(bounds[0].slice(0,7));
+}
+
+function fmtEuro(n){
+  return (Number(n) || 0).toLocaleString("fr-FR", {
+    style:"currency",
+    currency:"EUR"
+  });
+}
+
+function fmtNum(n){
+  return (Number(n) || 0).toLocaleString("fr-FR");
+}
+
+function fmtKg(n){
+  return (Number(n) || 0).toLocaleString("fr-FR", {
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  }) + " kg";
+}
+
+function fmtHours(n){
+  return (Number(n) || 0).toLocaleString("fr-FR", {
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  }) + " h";
+}
+
+function fmtPctValue(n){
+  return (Number(n) || 0).toLocaleString("fr-FR", {
+    minimumFractionDigits:1,
+    maximumFractionDigits:1
+  }) + " %";
+}
+
+function fmtPctRatio(n){
+  if(n === "" || n === null || n === undefined){
+    return "—";
+  }
+
+  return ((Number(n) || 0) * 100).toLocaleString("fr-FR", {
+    maximumFractionDigits:1
+  }) + " %";
+}
+
+function n(v){
+  if(v === null || v === undefined){
+    return 0;
+  }
+
+  if(typeof v === "number"){
+    return Number.isFinite(v) ? v : 0;
+  }
+
+  const cleaned = String(v)
+    .trim()
+    .replace(/\u00A0/g, " ")
+    .replace(/\u202F/g, " ")
+    .replace(/[€%]/g, "")
+    .replace(/\s/g, "")
+    .replace(",", ".");
+
+  const x = Number(cleaned);
+  return Number.isFinite(x) ? x : 0;
+}
+
+function normKey(v){
+  return String(v || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function serviceLabel(s){
+  const k = normKey(s);
+  if(k === "matin"){
+    return "Matin";
+  }
+  if(k === "soir"){
+    return "Soir";
+  }
+  return "Matin + Soir";
+}
+
+function formatDateFR(s){
+  if(!s){
+    return "—";
+  }
+
+  const d = rowDate({date_service:s});
+  const parts = d.split("-");
+  if(parts.length !== 3){
+    return s;
+  }
+
+  return `${parts[2]}/${parts[1]}/${parts[0]}`;
+}
+
+function formatMonthFR(s){
+  if(!s){
+    return "—";
+  }
+
+  const parts = s.split("-");
+  const d = new Date(Number(parts[0]), Number(parts[1]) - 1, 1);
+  return d.toLocaleDateString("fr-FR", {
+    month:"long",
+    year:"numeric"
+  });
+}
+
+function rowDate(row){
+  const raw = String(row.date_service || "").trim();
+
+  if(!raw){
+    return "";
+  }
+
+  const iso = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if(iso){
+    return `${iso[1]}-${String(iso[2]).padStart(2,"0")}-${String(iso[3]).padStart(2,"0")}`;
+  }
+
+  const fr = raw.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})$/);
+  if(fr){
+    return `${fr[3]}-${String(fr[2]).padStart(2,"0")}-${String(fr[1]).padStart(2,"0")}`;
+  }
+
+  return raw.slice(0,10);
+}
+
+function rowService(row){
+  return normKey(row.service || row.service_saisi || row.vue || "");
+}
+
+function rowResto(row){
+  return normKey(row.restaurant_code || row.restaurant || "");
+}
+
+function inRestaurant(row){
+  const rf = restaurantFilter.value;
+  if(rf === "all"){
+    return true;
+  }
+
+  return rowResto(row) === rf;
+}
+
+function inService(row){
+  const view = viewType.value;
+  if(view === "all"){
+    return true;
+  }
+
+  return rowService(row) === view;
+}
 
 function setDefaults(){
   const t = todayISO();
@@ -278,6 +1315,7 @@ function setDefaults(){
 
 function updateFilterFields(){
   const p = periodType.value;
+
   dayField.classList.toggle("hidden", p !== "day" && p !== "week");
   monthField.classList.toggle("hidden", p !== "month");
   fromField.classList.toggle("hidden", p !== "custom");
@@ -294,97 +1332,137 @@ function updateFilterFields(){
 
 function getBounds(){
   const p = periodType.value;
+
   if(p === "day"){
-    return [dayDate.value, dayDate.value, "Jour du " + formatDateFR(dayDate.value)];
+    return [
+      dayDate.value,
+      dayDate.value,
+      "Jour du " + formatDateFR(dayDate.value)
+    ];
   }
+
   if(p === "week"){
     const from = mondayOf(dayDate.value);
     const to = sundayOf(dayDate.value);
-    return [from, to, "Semaine du " + formatDateFR(from) + " au " + formatDateFR(to)];
+
+    return [
+      from,
+      to,
+      "Semaine du " + formatDateFR(from) + " au " + formatDateFR(to)
+    ];
   }
+
   if(p === "month"){
-    const [from,to] = monthBounds(monthDate.value);
-    return [from, to, "Mois de " + formatMonthFR(monthDate.value)];
-  }
-  return [dateFrom.value, dateTo.value, "Dates libres du " + formatDateFR(dateFrom.value) + " au " + formatDateFR(dateTo.value)];
-}
+    const bounds = monthBounds(monthDate.value);
 
-function formatDateFR(s){
-  if(!s) return "—";
-  const [y,m,d] = s.split("-");
-  return `${d}/${m}/${y}`;
-}
-
-function formatMonthFR(s){
-  if(!s) return "—";
-  const [y,m] = s.split("-");
-  const d = new Date(Number(y), Number(m)-1, 1);
-  return d.toLocaleDateString("fr-FR", { month:"long", year:"numeric" });
-}
-
-function rowDate(row){
-  const raw = String(row.date_service || "").trim();
-  if(!raw) return "";
-
-  // Déjà ISO : 2026-10-10 ou 2026-10-10T...
-  const iso = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
-  if(iso){
-    return `${iso[1]}-${String(iso[2]).padStart(2,"0")}-${String(iso[3]).padStart(2,"0")}`;
+    return [
+      bounds[0],
+      bounds[1],
+      "Mois de " + formatMonthFR(monthDate.value)
+    ];
   }
 
-  // Format FR : 10/10/2026
-  const fr = raw.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})$/);
-  if(fr){
-    return `${fr[3]}-${String(fr[2]).padStart(2,"0")}-${String(fr[1]).padStart(2,"0")}`;
-  }
-
-  return raw.slice(0,10);
+  return [
+    dateFrom.value,
+    dateTo.value,
+    "Dates libres du " + formatDateFR(dateFrom.value) + " au " + formatDateFR(dateTo.value)
+  ];
 }
 
-function rowsForTotals(){
-  // En "Toutes les vues", on évite de compter Matin + Soir + Journée.
-  // Si les lignes Journée existent, elles représentent déjà le total complet.
-  if(viewType.value === "all"){
-    const journeeRows = CURRENT_ROWS.filter(r => r.service === "journee");
-    return journeeRows.length ? journeeRows : CURRENT_ROWS.filter(r => r.service !== "journee");
-  }
-  return CURRENT_ROWS;
+function inPeriod(row, from, to){
+  const d = rowDate(row);
+  return d >= from && d <= to;
 }
 
 function buildRows(){
-  const serviceRows = (RAW.dashboard_service || []).map(r => ({...r, service: r.service || "matin"}));
-  const dayRows = (RAW.dashboard_journee || []).map(r => ({...r, service: "journee"}));
+  const serviceRows = (RAW.dashboard_service || []).map(r => ({
+    ...r,
+    service: r.service || "matin"
+  }));
+
+  const dayRows = (RAW.dashboard_journee || []).map(r => ({
+    ...r,
+    service: "journee"
+  }));
+
   return serviceRows.concat(dayRows);
 }
 
+function rowsForTotals(){
+  if(viewType.value === "all"){
+    const journeeRows = CURRENT_ROWS.filter(r => rowService(r) === "journee");
+    return journeeRows.length ? journeeRows : CURRENT_ROWS.filter(r => rowService(r) !== "journee");
+  }
+
+  return CURRENT_ROWS;
+}
+
+function rowsForTotalsGeneric(rows){
+  if(viewType.value === "all"){
+    const journeeRows = rows.filter(r => rowService(r) === "journee");
+    return journeeRows.length ? journeeRows : rows.filter(r => rowService(r) !== "journee");
+  }
+
+  return rows;
+}
+
+function latest(rows){
+  return rows.length ? rows[rows.length - 1] : null;
+}
+
+function unique(arr){
+  return [...new Set(arr.filter(Boolean))];
+}
+
 function applyFilters(){
-  const [from,to,label] = getBounds();
+  const bounds = getBounds();
+  const from = bounds[0];
+  const to = bounds[1];
+  const label = bounds[2];
+
   periodNote.textContent = "Période affichée : " + label;
-  const view = viewType.value;
 
   CURRENT_ROWS = buildRows().filter(r => {
-    const d = rowDate(r);
-    const inPeriod = d >= from && d <= to;
-    const inView = view === "all" ? true : r.service === view;
-    return inPeriod && inView;
+    return inPeriod(r, from, to) && inRestaurant(r) && inService(r);
   });
 
   CURRENT_CONTROLE = (RAW.controle_4_rapports || []).filter(r => {
-    const d = rowDate(r);
-    return d >= from && d <= to;
+    return inPeriod(r, from, to);
+  });
+
+  CURRENT_COMMERCIAL = buildCommercialRows().filter(r => {
+    return inPeriod(r, from, to) && inRestaurant(r) && inService(r);
+  });
+
+  CURRENT_FRITES = buildFritesRows().filter(r => {
+    return inPeriod(r, from, to) && inRestaurant(r);
+  });
+
+  CURRENT_PERTES = buildPertesRows().filter(r => {
+    return inPeriod(r, from, to) && inRestaurant(r) && inService(r);
   });
 
   renderAll();
 }
 
-function sum(rows, key){ return rows.reduce((a,r)=>a+n(r[key]),0); }
+function sum(rows, key){
+  return rows.reduce((a, r) => a + n(r[key]), 0);
+}
+
+function avg(values){
+  const arr = values.map(n).filter(v => Number.isFinite(v) && v > 0);
+  return arr.length ? arr.reduce((a,b) => a+b, 0) / arr.length : 0;
+}
+
 function groupByRestaurant(rows){
-  return rows.reduce((acc,r)=>{
-    const k = r.restaurant_code || r.restaurant || "inconnu";
-    if(!acc[k]) acc[k] = [];
+  return rows.reduce((acc, r) => {
+    const k = rowResto(r) || "inconnu";
+    if(!acc[k]){
+      acc[k] = [];
+    }
     acc[k].push(r);
     return acc;
-  },{});
+  }, {});
 }
 
 function renderAll(){
@@ -393,22 +1471,29 @@ function renderAll(){
   renderPerformanceTable();
   renderCommandes();
   renderPrevisionnel();
+  renderAnalyseCommerciale();
+  renderFrites();
+  renderService();
+  renderRH();
+  renderQualite();
+  renderPertes();
   renderControle();
 }
 
 function renderKPIs(){
   const rows = rowsForTotals();
 
-  const ca = sum(rows,"ca_canaux_reel");
-  const prev = sum(rows,"ca_total_prev");
-  const cmd = sum(rows,"commandes_total_reel");
+  const ca = sum(rows, "ca_canaux_reel");
+  const prev = sum(rows, "ca_total_prev");
+  const cmd = sum(rows, "commandes_total_reel");
 
   kpiCA.textContent = fmtEuro(ca);
-  kpiCAPrev.textContent = "Prévisionnel : " + fmtEuro(prev) + " | Écart : " + fmtEuro(ca-prev);
-  kpiRestaurant.textContent = fmtEuro(sum(rows,"ca_restaurant_reel"));
-  kpiUber.textContent = fmtEuro(sum(rows,"ca_uber_reel"));
-  kpiDeliveroo.textContent = fmtEuro(sum(rows,"ca_deliveroo_reel"));
-  kpiCC.textContent = fmtEuro(sum(rows,"ca_cc_reel"));
+  kpiCAPrev.textContent = "Prévisionnel : " + fmtEuro(prev) + " | Écart : " + fmtEuro(ca - prev);
+  kpiRestaurant.textContent = fmtEuro(sum(rows, "ca_restaurant_reel"));
+  kpiUber.textContent = fmtEuro(sum(rows, "ca_uber_reel"));
+  kpiDeliveroo.textContent = fmtEuro(sum(rows, "ca_deliveroo_reel"));
+  kpiCC.textContent = fmtEuro(sum(rows, "ca_cc_reel"));
+
   kpiCmd.textContent = fmtNum(cmd);
   kpiTicket.textContent = fmtEuro(cmd ? ca / cmd : 0);
 
@@ -416,10 +1501,10 @@ function renderKPIs(){
   const b = groups.boulogne || [];
   const a = groups.armentieres || [];
 
-  const cmdB = sum(b,"commandes_total_reel");
-  const cmdA = sum(a,"commandes_total_reel");
-  const caB = sum(b,"ca_canaux_reel");
-  const caA = sum(a,"ca_canaux_reel");
+  const cmdB = sum(b, "commandes_total_reel");
+  const cmdA = sum(a, "commandes_total_reel");
+  const caB = sum(b, "ca_canaux_reel");
+  const caA = sum(a, "ca_canaux_reel");
 
   kpiCmdB.textContent = fmtNum(cmdB);
   kpiCmdA.textContent = fmtNum(cmdA);
@@ -429,120 +1514,977 @@ function renderKPIs(){
 }
 
 function renderRestaurantCards(){
-  const rowsForCards = rowsForTotals();
-  const groups = groupByRestaurant(rowsForCards);
+  const rows = rowsForTotals();
+  const groups = groupByRestaurant(rows);
 
-  const html = ["boulogne","armentieres"].map(code => {
-    const rows = groups[code] || [];
-    const ca = sum(rows,"ca_canaux_reel");
-    const prev = sum(rows,"ca_total_prev");
-    const cmd = sum(rows,"commandes_total_reel");
+  const allCard = restaurantCard("global", "Comparaison globale", rows);
 
-    return `<div class="card resto-card">
-      <h3>${RESTO_LABEL[code]}</h3>
+  const bCard = restaurantCard("boulogne", "Boulogne-sur-Mer", groups.boulogne || []);
+  const aCard = restaurantCard("armentieres", "Armentières", groups.armentieres || []);
+
+  restaurantCards.innerHTML = allCard + bCard + aCard;
+}
+
+function restaurantCard(code, label, rows){
+  const ca = sum(rows, "ca_canaux_reel");
+  const prev = sum(rows, "ca_total_prev");
+  const cmd = sum(rows, "commandes_total_reel");
+
+  return `
+    <div class="card resto-card">
+      <h3>${label}</h3>
       <div class="metric-list">
+        <div class="metric-row head">
+          <div>Indicateur</div>
+          <div>Réel</div>
+          <div>Prévisionnel</div>
+          <div>Écart</div>
+          <div>Taux</div>
+        </div>
         ${metric("CA Restaurant", sum(rows,"ca_restaurant_reel"), sum(rows,"ca_restaurant_prev"), true)}
         ${metric("CA Uber", sum(rows,"ca_uber_reel"), sum(rows,"ca_uber_prev"), true)}
         ${metric("CA Deliveroo", sum(rows,"ca_deliveroo_reel"), sum(rows,"ca_deliveroo_prev"), true)}
         ${metric("CA C&C", sum(rows,"ca_cc_reel"), sum(rows,"ca_cc_prev"), true)}
         ${metric("CA Global", ca, prev, true)}
         ${metric("Commandes", cmd, null, false)}
-        ${metric("Ticket moyen", cmd ? ca/cmd : 0, null, true)}
+        ${metric("Ticket moyen", cmd ? ca / cmd : 0, null, true)}
       </div>
-    </div>`;
-  }).join("");
-
-  restaurantCards.innerHTML = html;
+    </div>
+  `;
 }
 
 function metric(label, real, prev, money){
-  const ecart = prev === null || prev === undefined ? null : real - prev;
+  const hasPrev = prev !== null && prev !== undefined;
+  const ecart = hasPrev ? real - prev : null;
+  const taux = hasPrev && prev ? real / prev : "";
   const cls = ecart === null ? "neutral" : ecart >= 0 ? "pos" : "neg";
-  return `<div class="metric-row">
-    <div>${label}</div>
-    <div>${money ? fmtEuro(real) : fmtNum(real)}</div>
-    <div>${prev === null || prev === undefined ? "—" : (money ? fmtEuro(prev) : fmtNum(prev))}</div>
-    <div class="${cls}">${ecart === null ? "—" : fmtEuro(ecart)}</div>
-  </div>`;
+
+  return `
+    <div class="metric-row">
+      <div>${label}</div>
+      <div>${money ? fmtEuro(real) : fmtNum(real)}</div>
+      <div>${hasPrev ? (money ? fmtEuro(prev) : fmtNum(prev)) : "—"}</div>
+      <div class="${cls}">${ecart === null ? "—" : fmtEuro(ecart)}</div>
+      <div>${taux === "" ? "—" : fmtPctRatio(taux)}</div>
+    </div>
+  `;
 }
 
 function renderPerformanceTable(){
   performanceRows.innerHTML = CURRENT_ROWS
-    .sort((a,b)=>rowDate(a).localeCompare(rowDate(b)) || String(a.restaurant).localeCompare(String(b.restaurant)))
-    .map(r=>{
-      const ecart = n(r.ca_canaux_reel)-n(r.ca_total_prev);
-      return `<tr>
-        <td>${formatDateFR(rowDate(r))}</td><td>${r.restaurant || RESTO_LABEL[r.restaurant_code] || ""}</td><td>${serviceLabel(r.service)}</td>
-        <td class="num">${fmtEuro(r.ca_restaurant_reel)}</td>
-        <td class="num">${fmtEuro(r.ca_uber_reel)}</td>
-        <td class="num">${fmtEuro(r.ca_deliveroo_reel)}</td>
-        <td class="num">${fmtEuro(r.ca_cc_reel)}</td>
-        <td class="num">${fmtEuro(r.ca_canaux_reel)}</td>
-        <td class="num">${fmtEuro(r.ca_total_prev)}</td>
-        <td class="num ${ecart>=0?"pos":"neg"}">${fmtEuro(ecart)}</td>
-        <td class="num">${fmtPct(r.taux_ca_total)}</td>
-      </tr>`;
+    .slice()
+    .sort((a, b) => rowDate(a).localeCompare(rowDate(b)) || String(a.restaurant).localeCompare(String(b.restaurant)))
+    .map(r => {
+      const ecart = n(r.ca_canaux_reel) - n(r.ca_total_prev);
+
+      return `
+        <tr>
+          <td>${formatDateFR(rowDate(r))}</td>
+          <td>${r.restaurant || RESTO_LABEL[rowResto(r)] || ""}</td>
+          <td>${serviceLabel(rowService(r))}</td>
+          <td class="num">${fmtEuro(r.ca_restaurant_reel)}</td>
+          <td class="num">${fmtEuro(r.ca_uber_reel)}</td>
+          <td class="num">${fmtEuro(r.ca_deliveroo_reel)}</td>
+          <td class="num">${fmtEuro(r.ca_cc_reel)}</td>
+          <td class="num">${fmtEuro(r.ca_canaux_reel)}</td>
+          <td class="num">${fmtEuro(r.ca_total_prev)}</td>
+          <td class="num ${ecart >= 0 ? "pos" : "neg"}">${fmtEuro(ecart)}</td>
+          <td class="num">${fmtPctRatio(r.taux_ca_total)}</td>
+        </tr>
+      `;
     }).join("") || `<tr><td colspan="11">Aucune donnée pour cette période.</td></tr>`;
 }
 
 function renderCommandes(){
   commandesRows.innerHTML = CURRENT_ROWS
-    .map(r=>{
+    .slice()
+    .sort((a,b) => rowDate(a).localeCompare(rowDate(b)))
+    .map(r => {
       const ca = n(r.ca_canaux_reel);
       const cmd = n(r.commandes_total_reel);
-      return `<tr>
-        <td>${formatDateFR(rowDate(r))}</td><td>${r.restaurant || RESTO_LABEL[r.restaurant_code] || ""}</td><td>${serviceLabel(r.service)}</td>
-        <td class="num">${fmtNum(cmd)}</td><td class="num">${fmtEuro(ca)}</td><td class="num">${fmtEuro(cmd ? ca/cmd : 0)}</td>
-      </tr>`;
+
+      return `
+        <tr>
+          <td>${formatDateFR(rowDate(r))}</td>
+          <td>${r.restaurant || RESTO_LABEL[rowResto(r)] || ""}</td>
+          <td>${serviceLabel(rowService(r))}</td>
+          <td class="num">${fmtNum(cmd)}</td>
+          <td class="num">${fmtEuro(ca)}</td>
+          <td class="num">${fmtEuro(cmd ? ca / cmd : 0)}</td>
+        </tr>
+      `;
     }).join("") || `<tr><td colspan="6">Aucune donnée commandes.</td></tr>`;
 }
 
 function renderPrevisionnel(){
   const channels = [
-    ["CA Restaurant","ca_restaurant_reel","ca_restaurant_prev"],
-    ["Uber","ca_uber_reel","ca_uber_prev"],
-    ["Deliveroo","ca_deliveroo_reel","ca_deliveroo_prev"],
-    ["C&C","ca_cc_reel","ca_cc_prev"],
-    ["CA Global","ca_canaux_reel","ca_total_prev"]
+    ["CA Restaurant", "ca_restaurant_reel", "ca_restaurant_prev"],
+    ["Uber", "ca_uber_reel", "ca_uber_prev"],
+    ["Deliveroo", "ca_deliveroo_reel", "ca_deliveroo_prev"],
+    ["C&C", "ca_cc_reel", "ca_cc_prev"],
+    ["CA Global", "ca_canaux_reel", "ca_total_prev"]
   ];
-  previsionnelRows.innerHTML = CURRENT_ROWS.flatMap(r => channels.map(ch => {
-    const real = n(r[ch[1]]);
-    const prev = n(r[ch[2]]);
-    const ecart = real-prev;
-    return `<tr>
-      <td>${formatDateFR(rowDate(r))}</td><td>${r.restaurant || RESTO_LABEL[r.restaurant_code] || ""}</td><td>${serviceLabel(r.service)}</td><td>${ch[0]}</td>
-      <td class="num">${fmtEuro(real)}</td><td class="num">${fmtEuro(prev)}</td><td class="num ${ecart>=0?"pos":"neg"}">${fmtEuro(ecart)}</td><td class="num">${prev ? fmtPct(real/prev) : "—"}</td>
-    </tr>`;
-  })).join("") || `<tr><td colspan="8">Aucune donnée prévisionnelle.</td></tr>`;
+
+  previsionnelRows.innerHTML = CURRENT_ROWS
+    .flatMap(r => channels.map(ch => {
+      const real = n(r[ch[1]]);
+      const prev = n(r[ch[2]]);
+      const ecart = real - prev;
+
+      return `
+        <tr>
+          <td>${formatDateFR(rowDate(r))}</td>
+          <td>${r.restaurant || RESTO_LABEL[rowResto(r)] || ""}</td>
+          <td>${serviceLabel(rowService(r))}</td>
+          <td>${ch[0]}</td>
+          <td class="num">${fmtEuro(real)}</td>
+          <td class="num">${fmtEuro(prev)}</td>
+          <td class="num ${ecart >= 0 ? "pos" : "neg"}">${fmtEuro(ecart)}</td>
+          <td class="num">${prev ? fmtPctRatio(real / prev) : "—"}</td>
+        </tr>
+      `;
+    })).join("") || `<tr><td colspan="8">Aucune donnée prévisionnelle.</td></tr>`;
+}
+
+function buildCommercialRows(){
+  const caRows = RAW.ca || [];
+  const keys = unique(caRows.map(r => `${rowDate(r)}|${rowResto(r)}`));
+  const rows = [];
+
+  keys.forEach(key => {
+    const parts = key.split("|");
+    const date = parts[0];
+    const resto = parts[1];
+
+    const dayRows = caRows.filter(r => rowDate(r) === date && rowResto(r) === resto);
+    const matin = latest(dayRows.filter(r => rowService(r) === "matin"));
+    const soirCum = latest(dayRows.filter(r => rowService(r) === "soir"));
+
+    if(matin){
+      rows.push(commercialFromCa(matin, null, "matin"));
+    }
+
+    if(soirCum && matin){
+      rows.push(commercialFromCa(soirCum, matin, "soir"));
+    }
+
+    if(soirCum){
+      rows.push(commercialFromCa(soirCum, null, "journee"));
+    }
+  });
+
+  return rows;
+}
+
+function commercialFromCa(current, subtract, service){
+  const sub = subtract || {};
+
+  const caGlobal = n(current.ca_global_saisi) - n(sub.ca_global_saisi);
+  const cmdGlobal = n(current.commandes_globales_saisies) - n(sub.commandes_globales_saisies);
+
+  const caRestaurant = n(current.ca_restaurant_reel_calcule) - n(sub.ca_restaurant_reel_calcule);
+  const cmdRestaurant = n(current.commandes_restaurant_calculees) - n(sub.commandes_restaurant_calculees);
+
+  const caUber = n(current.ca_uber) - n(sub.ca_uber);
+  const cmdUber = n(current.cmd_uber) - n(sub.cmd_uber);
+
+  const caDeliveroo = n(current.ca_deliveroo) - n(sub.ca_deliveroo);
+  const cmdDeliveroo = n(current.cmd_deliveroo) - n(sub.cmd_deliveroo);
+
+  const caCc = n(current.ca_cc) - n(sub.ca_cc);
+  const cmdCc = n(current.cmd_cc) - n(sub.cmd_cc);
+
+  const caBoissons = n(current.ca_boissons) - n(sub.ca_boissons);
+  const qteBoissons = n(current.qte_boissons) - n(sub.qte_boissons);
+
+  const caDesserts = n(current.ca_desserts) - n(sub.ca_desserts);
+  const qteDesserts = n(current.qte_desserts) - n(sub.qte_desserts);
+
+  return {
+    date_service: rowDate(current),
+    restaurant_code: rowResto(current),
+    restaurant: current.restaurant || RESTO_LABEL[rowResto(current)] || "",
+    service: service,
+
+    ca_global: caGlobal,
+    commandes_globales: cmdGlobal,
+
+    ca_restaurant: caRestaurant,
+    commandes_restaurant: cmdRestaurant,
+
+    ca_uber: caUber,
+    cmd_uber: cmdUber,
+
+    ca_deliveroo: caDeliveroo,
+    cmd_deliveroo: cmdDeliveroo,
+
+    ca_cc: caCc,
+    cmd_cc: cmdCc,
+
+    ca_boissons: caBoissons,
+    qte_boissons: qteBoissons,
+
+    ca_desserts: caDesserts,
+    qte_desserts: qteDesserts
+  };
+}
+
+function renderAnalyseCommerciale(){
+  const rows = rowsForTotalsGeneric(CURRENT_COMMERCIAL);
+
+  const caGlobal = sum(rows, "ca_global");
+  const cmdGlobal = sum(rows, "commandes_globales");
+  const caBoissons = sum(rows, "ca_boissons");
+  const qteBoissons = sum(rows, "qte_boissons");
+  const caDesserts = sum(rows, "ca_desserts");
+  const qteDesserts = sum(rows, "qte_desserts");
+
+  kpiCaBoissons.textContent = fmtEuro(caBoissons);
+  kpiPctCaBoissons.textContent = "% du CA : " + fmtPctValue(caGlobal ? caBoissons / caGlobal * 100 : 0);
+  kpiQteBoissons.textContent = fmtNum(qteBoissons);
+  kpiPctTicketBoissons.textContent = "% commandes : " + fmtPctValue(cmdGlobal ? qteBoissons / cmdGlobal * 100 : 0);
+
+  kpiCaDesserts.textContent = fmtEuro(caDesserts);
+  kpiPctCaDesserts.textContent = "% du CA : " + fmtPctValue(caGlobal ? caDesserts / caGlobal * 100 : 0);
+  kpiQteDesserts.textContent = fmtNum(qteDesserts);
+  kpiPctTicketDesserts.textContent = "% commandes : " + fmtPctValue(cmdGlobal ? qteDesserts / cmdGlobal * 100 : 0);
+
+  ticketCanalRows.innerHTML = CURRENT_COMMERCIAL.map(r => {
+    return `
+      <tr>
+        <td>${formatDateFR(rowDate(r))}</td>
+        <td>${r.restaurant || RESTO_LABEL[rowResto(r)] || ""}</td>
+        <td>${serviceLabel(rowService(r))}</td>
+        <td class="num">${fmtEuro(n(r.commandes_restaurant) ? n(r.ca_restaurant) / n(r.commandes_restaurant) : 0)}</td>
+        <td class="num">${fmtEuro(n(r.cmd_uber) ? n(r.ca_uber) / n(r.cmd_uber) : 0)}</td>
+        <td class="num">${fmtEuro(n(r.cmd_deliveroo) ? n(r.ca_deliveroo) / n(r.cmd_deliveroo) : 0)}</td>
+        <td class="num">${fmtEuro(n(r.cmd_cc) ? n(r.ca_cc) / n(r.cmd_cc) : 0)}</td>
+        <td class="num">${fmtEuro(n(r.commandes_globales) ? n(r.ca_global) / n(r.commandes_globales) : 0)}</td>
+      </tr>
+    `;
+  }).join("") || `<tr><td colspan="8">Aucune donnée ticket moyen par canal.</td></tr>`;
+
+  boissonsDessertsRows.innerHTML = CURRENT_COMMERCIAL.flatMap(r => {
+    const cmd = n(r.commandes_globales);
+    const ca = n(r.ca_global);
+
+    const lines = [
+      ["Boissons", n(r.ca_boissons), n(r.qte_boissons)],
+      ["Desserts", n(r.ca_desserts), n(r.qte_desserts)]
+    ];
+
+    return lines.map(line => {
+      const famille = line[0];
+      const caFamille = line[1];
+      const qte = line[2];
+
+      return `
+        <tr>
+          <td>${formatDateFR(rowDate(r))}</td>
+          <td>${r.restaurant || RESTO_LABEL[rowResto(r)] || ""}</td>
+          <td>${serviceLabel(rowService(r))}</td>
+          <td>${famille}</td>
+          <td class="num">${fmtEuro(caFamille)}</td>
+          <td class="num">${fmtNum(qte)}</td>
+          <td class="num">${fmtPctValue(cmd ? qte / cmd * 100 : 0)}</td>
+          <td class="num">${fmtPctValue(ca ? caFamille / ca * 100 : 0)}</td>
+        </tr>
+      `;
+    });
+  }).join("") || `<tr><td colspan="8">Aucune donnée boissons / desserts.</td></tr>`;
+}
+
+function buildFritesRows(){
+  const stockRows = RAW.stocks || [];
+  const rhRows = RAW.rh || [];
+  const dayRows = buildRows().filter(r => rowService(r) === "journee");
+
+  const stockKeys = unique(stockRows.map(r => `${rowDate(r)}|${rowResto(r)}`));
+  const rows = [];
+
+  stockKeys.forEach(key => {
+    const parts = key.split("|");
+    const date = parts[0];
+    const resto = parts[1];
+
+    const stocksDay = stockRows.filter(r => {
+      const product = normKey(r.produit);
+      return rowDate(r) === date && rowResto(r) === resto && product.includes("frites");
+    });
+
+    const matinStock = latest(stocksDay.filter(r => rowService(r) === "matin"));
+    const soirStock = latest(stocksDay.filter(r => rowService(r) === "soir"));
+
+    if(!matinStock && !soirStock){
+      return;
+    }
+
+    const dayCa = latest(dayRows.filter(r => rowDate(r) === date && rowResto(r) === resto)) || {};
+    const caTTC = n(dayCa.ca_canaux_reel) || n(dayCa.ca_global_saisi_reel);
+    const caHT = caTTC / 1.10;
+
+    const livraisonKg = matinStock
+      ? n(matinStock.livraison_cartons) * n(matinStock.carton_kg)
+      : 0;
+
+    const stockDisponible = matinStock ? n(matinStock.total_kg) : 0;
+    const stockInitialHorsLivraison = Math.max(0, stockDisponible - livraisonKg);
+    const stockFinal = soirStock ? n(soirStock.total_kg) : 0;
+    const consommationKg = stockDisponible && stockFinal ? stockDisponible - stockFinal : 0;
+
+    const coutReel = consommationKg * FRITES_PRIX_KG;
+    const pctReel = caHT ? coutReel / caHT * 100 : 0;
+    const objectifEuro = caHT * (FRITES_OBJECTIF_PCT / 100);
+    const objectifKg = FRITES_PRIX_KG ? objectifEuro / FRITES_PRIX_KG : 0;
+    const ecartKg = consommationKg - objectifKg;
+    const ecartEuro = coutReel - objectifEuro;
+    const ecartPct = pctReel - FRITES_OBJECTIF_PCT;
+
+    const rhMatin = latest(rhRows.filter(r => rowDate(r) === date && rowResto(r) === resto && rowService(r) === "matin")) || {};
+    const rhSoir = latest(rhRows.filter(r => rowDate(r) === date && rowResto(r) === resto && rowService(r) === "soir")) || {};
+
+    const complete = Boolean(matinStock && soirStock && caHT);
+    let statut = "Données incomplètes";
+
+    if(complete){
+      if(ecartPct > 0.2){
+        statut = "Surconsommation";
+      } else if(ecartPct < -0.2){
+        statut = "Sous-consommation";
+      } else {
+        statut = "OK";
+      }
+    }
+
+    rows.push({
+      date_service: date,
+      restaurant_code: resto,
+      restaurant: (matinStock && matinStock.restaurant) || (soirStock && soirStock.restaurant) || RESTO_LABEL[resto] || "",
+      service: "journee",
+
+      ca_ttc: caTTC,
+      ca_ht: caHT,
+
+      stock_initial_hors_livraison: stockInitialHorsLivraison,
+      livraison_kg: livraisonKg,
+      stock_disponible: stockDisponible,
+      stock_final: stockFinal,
+
+      consommation_kg: consommationKg,
+      objectif_kg: objectifKg,
+      ecart_kg: ecartKg,
+
+      cout_reel: coutReel,
+      pct_reel: pctReel,
+      objectif_pct: FRITES_OBJECTIF_PCT,
+      ecart_pct: ecartPct,
+      ecart_euro: ecartEuro,
+
+      statut: statut,
+      pliage_matin: rhMatin.place_pliage || "",
+      pliage_soir: rhSoir.place_pliage || ""
+    });
+  });
+
+  return rows;
+}
+
+function renderFrites(){
+  const rows = CURRENT_FRITES;
+
+  const totalKg = sum(rows, "consommation_kg");
+  const totalCaHT = sum(rows, "ca_ht");
+  const totalCout = sum(rows, "cout_reel");
+  const objectifKg = sum(rows, "objectif_kg");
+  const pct = totalCaHT ? totalCout / totalCaHT * 100 : 0;
+  const ecartKg = totalKg - objectifKg;
+
+  kpiFritesKg.textContent = fmtKg(totalKg);
+  kpiFritesEcartKg.textContent = "Écart kg : " + fmtKg(ecartKg);
+  kpiFritesPct.textContent = fmtPctValue(pct);
+  kpiFritesStatut.textContent = "Statut : " + (pct > FRITES_OBJECTIF_PCT ? "Surconsommation" : "OK");
+
+  fritesRows.innerHTML = rows.map(r => {
+    return `
+      <tr>
+        <td>${formatDateFR(rowDate(r))}</td>
+        <td>${r.restaurant || RESTO_LABEL[rowResto(r)] || ""}</td>
+        <td class="num">${fmtEuro(r.ca_ttc)}</td>
+        <td class="num">${fmtEuro(r.ca_ht)}</td>
+        <td class="num">${fmtKg(r.stock_initial_hors_livraison)}</td>
+        <td class="num">${fmtKg(r.livraison_kg)}</td>
+        <td class="num">${fmtKg(r.stock_disponible)}</td>
+        <td class="num">${fmtKg(r.stock_final)}</td>
+        <td class="num">${fmtKg(r.consommation_kg)}</td>
+        <td class="num">${fmtKg(r.objectif_kg)}</td>
+        <td class="num ${n(r.ecart_kg) <= 0 ? "pos" : "neg"}">${fmtKg(r.ecart_kg)}</td>
+        <td class="num">${fmtEuro(r.cout_reel)}</td>
+        <td class="num">${fmtPctValue(r.pct_reel)}</td>
+        <td class="num">${fmtPctValue(r.objectif_pct)}</td>
+        <td class="num ${n(r.ecart_pct) <= 0 ? "pos" : "neg"}">${fmtPctValue(r.ecart_pct)}</td>
+        <td class="num ${n(r.ecart_euro) <= 0 ? "pos" : "neg"}">${fmtEuro(r.ecart_euro)}</td>
+        <td>${statusClass(r.statut)}</td>
+        <td>${r.pliage_matin || "—"}</td>
+        <td>${r.pliage_soir || "—"}</td>
+      </tr>
+    `;
+  }).join("") || `<tr><td colspan="19">Aucune donnée frites pour cette période.</td></tr>`;
+
+  renderFritesChart();
+}
+
+function renderFritesChart(){
+  const bounds = selectedMonthBounds();
+  const from = bounds[0];
+  const to = bounds[1];
+
+  const rows = buildFritesRows().filter(r => {
+    return rowDate(r) >= from && rowDate(r) <= to && inRestaurant(r);
+  });
+
+  const byDate = {};
+
+  rows.forEach(r => {
+    const d = rowDate(r);
+    if(!byDate[d]){
+      byDate[d] = { date:d, caHT:0, cout:0 };
+    }
+    byDate[d].caHT += n(r.ca_ht);
+    byDate[d].cout += n(r.cout_reel);
+  });
+
+  const data = Object.values(byDate)
+    .sort((a,b) => a.date.localeCompare(b.date))
+    .map(r => ({
+      label: formatDateFR(r.date).slice(0,5),
+      value: r.caHT ? r.cout / r.caHT * 100 : 0,
+      target: FRITES_OBJECTIF_PCT
+    }));
+
+  fritesChartNote.textContent = "Graphique figé sur le mois : " + selectedMonthLabel();
+
+  renderLineChart(
+    fritesChart,
+    data,
+    {
+      valueLabel:"% réel frites",
+      targetLabel:"Objectif 2,7 %",
+      suffix:"%",
+      empty:"Aucune donnée frites sur ce mois."
+    }
+  );
+}
+
+function renderService(){
+  const bounds = getBounds();
+  const from = bounds[0];
+  const to = bounds[1];
+
+  const rhRowsFilt = (RAW.rh || []).filter(r => inPeriod(r, from, to) && inRestaurant(r) && inService(r));
+  const reductionsFilt = (RAW.reductions || []).filter(r => inPeriod(r, from, to) && inRestaurant(r) && inService(r));
+  const refaitsFilt = (RAW.refaits || []).filter(r => inPeriod(r, from, to) && inRestaurant(r) && inService(r));
+
+  const attenteMax = Math.max(0, ...rhRowsFilt.map(r => n(r.temps_attente_max_minutes)));
+  const alertes = rhRowsFilt.filter(r => n(r.temps_attente_max_minutes) > 10).length;
+
+  kpiAttenteMax.textContent = fmtNum(attenteMax) + " min";
+  kpiAlertesAttente.textContent = fmtNum(alertes);
+
+  kpiNbReductions.textContent = fmtNum(reductionsFilt.length);
+  kpiMontantReductions.textContent = fmtEuro(sum(reductionsFilt, "montant"));
+
+  kpiNbRefaits.textContent = fmtNum(refaitsFilt.length);
+  kpiMontantRefaits.textContent = fmtEuro(sum(refaitsFilt, "montant"));
+
+  attenteRows.innerHTML = rhRowsFilt.map(r => {
+    const minutes = n(r.temps_attente_max_minutes);
+    const statut = attenteStatus(minutes);
+
+    return `
+      <tr>
+        <td>${formatDateFR(rowDate(r))}</td>
+        <td>${r.restaurant || RESTO_LABEL[rowResto(r)] || ""}</td>
+        <td>${serviceLabel(rowService(r))}</td>
+        <td class="num">${fmtNum(minutes)} min</td>
+        <td>${statusClass(statut)}</td>
+        <td>${r.explication_temps_attente || "—"}</td>
+      </tr>
+    `;
+  }).join("") || `<tr><td colspan="6">Aucune donnée temps d’attente.</td></tr>`;
+
+  reductionsRows.innerHTML = reductionsFilt.map(r => {
+    return `
+      <tr>
+        <td>${formatDateFR(rowDate(r))}</td>
+        <td>${r.restaurant || RESTO_LABEL[rowResto(r)] || ""}</td>
+        <td>${serviceLabel(rowService(r))}</td>
+        <td>${r.numero_commande || "—"}</td>
+        <td class="num">${fmtEuro(r.montant)}</td>
+        <td>${r.explication || "—"}</td>
+      </tr>
+    `;
+  }).join("") || `<tr><td colspan="6">Aucune réduction sur cette période.</td></tr>`;
+
+  refaitsRows.innerHTML = refaitsFilt.map(r => {
+    return `
+      <tr>
+        <td>${formatDateFR(rowDate(r))}</td>
+        <td>${r.restaurant || RESTO_LABEL[rowResto(r)] || ""}</td>
+        <td>${serviceLabel(rowService(r))}</td>
+        <td>${r.numero_commande || "—"}</td>
+        <td>${r.article || "—"}</td>
+        <td class="num">${fmtEuro(r.montant)}</td>
+        <td>${r.explication || "—"}</td>
+      </tr>
+    `;
+  }).join("") || `<tr><td colspan="7">Aucune commande refaite sur cette période.</td></tr>`;
+}
+
+function renderRH(){
+  const bounds = getBounds();
+  const from = bounds[0];
+  const to = bounds[1];
+
+  const rhFilt = (RAW.rh || []).filter(r => inPeriod(r, from, to) && inRestaurant(r) && inService(r));
+  const hsFilt = (RAW.heures_supp || []).filter(r => inPeriod(r, from, to) && inRestaurant(r) && inService(r));
+
+  const heuresPrevues = sum(rhFilt, "heures_prevues_planning");
+  const heuresReelles = sum(rhFilt, "heures_reelles");
+  const heuresSupp = sum(rhFilt, "heures_supp_total");
+  const ecart = heuresReelles - heuresPrevues;
+
+  kpiHeuresPrevues.textContent = fmtHours(heuresPrevues);
+  kpiHeuresReelles.textContent = fmtHours(heuresReelles);
+  kpiHeuresSupp.textContent = fmtHours(heuresSupp);
+  kpiEcartHeures.textContent = fmtHours(ecart);
+
+  rhRows.innerHTML = rhFilt.map(r => {
+    const prev = n(r.heures_prevues_planning);
+    const reel = n(r.heures_reelles);
+    const hs = n(r.heures_supp_total);
+    const diff = reel - prev;
+
+    return `
+      <tr>
+        <td>${formatDateFR(rowDate(r))}</td>
+        <td>${r.restaurant || RESTO_LABEL[rowResto(r)] || ""}</td>
+        <td>${serviceLabel(rowService(r))}</td>
+        <td class="num">${fmtHours(prev)}</td>
+        <td class="num">${fmtHours(reel)}</td>
+        <td class="num">${fmtHours(hs)}</td>
+        <td class="num ${diff <= 0 ? "pos" : "neg"}">${fmtHours(diff)}</td>
+        <td class="num">${fmtNum(r.temps_attente_max_minutes)} min</td>
+        <td>${r.explication_temps_attente || "—"}</td>
+      </tr>
+    `;
+  }).join("") || `<tr><td colspan="9">Aucune donnée RH.</td></tr>`;
+
+  heuresSuppRows.innerHTML = hsFilt.map(r => {
+    return `
+      <tr>
+        <td>${formatDateFR(rowDate(r))}</td>
+        <td>${r.restaurant || RESTO_LABEL[rowResto(r)] || ""}</td>
+        <td>${serviceLabel(rowService(r))}</td>
+        <td>${r.nom || "—"}</td>
+        <td>${r.debut || "—"}</td>
+        <td>${r.fin || "—"}</td>
+        <td class="num">${fmtHours(r.heures)}</td>
+        <td>${r.motif || "—"}</td>
+      </tr>
+    `;
+  }).join("") || `<tr><td colspan="8">Aucune heure supplémentaire détaillée.</td></tr>`;
+}
+
+function renderQualite(){
+  const bounds = getBounds();
+  const from = bounds[0];
+  const to = bounds[1];
+
+  const rows = (RAW.evaluation || []).filter(r => inPeriod(r, from, to) && inRestaurant(r) && inService(r));
+
+  const indices = rows.map(r => n(r.indice_service)).filter(v => v > 0);
+  const mean = avg(indices);
+  const best = indices.length ? Math.max(...indices) : 0;
+  const worst = indices.length ? Math.min(...indices) : 0;
+
+  let notesFaibles = 0;
+
+  rows.forEach(r => {
+    ["fluidite","qualite_preparation","satisfaction_client","placement","motivation_equipe","recuperation_service"].forEach(k => {
+      const v = n(r[k]);
+      if(v > 0 && v < 4){
+        notesFaibles++;
+      }
+    });
+  });
+
+  kpiIndiceService.textContent = mean.toLocaleString("fr-FR", {maximumFractionDigits:2}) + " / 5";
+  kpiBestService.textContent = best.toLocaleString("fr-FR", {maximumFractionDigits:2}) + " / 5";
+  kpiWorstService.textContent = worst.toLocaleString("fr-FR", {maximumFractionDigits:2}) + " / 5";
+  kpiNotesFaibles.textContent = fmtNum(notesFaibles);
+
+  qualiteRows.innerHTML = rows.map(r => {
+    return `
+      <tr>
+        <td>${formatDateFR(rowDate(r))}</td>
+        <td>${r.restaurant || RESTO_LABEL[rowResto(r)] || ""}</td>
+        <td>${serviceLabel(rowService(r))}</td>
+        <td class="num">${noteCell(r.fluidite)}</td>
+        <td class="num">${noteCell(r.qualite_preparation)}</td>
+        <td class="num">${noteCell(r.satisfaction_client)}</td>
+        <td class="num">${noteCell(r.placement)}</td>
+        <td class="num">${noteCell(r.motivation_equipe)}</td>
+        <td class="num">${noteCell(r.recuperation_service)}</td>
+        <td class="num">${n(r.indice_service).toLocaleString("fr-FR", {maximumFractionDigits:2})}</td>
+        <td>${badExplanations(r)}</td>
+        <td>${r.point_fort || "—"}</td>
+        <td>${r.amelioration || "—"}</td>
+      </tr>
+    `;
+  }).join("") || `<tr><td colspan="13">Aucune évaluation service.</td></tr>`;
+}
+
+function noteCell(v){
+  const x = n(v);
+  const cls = x >= 4 ? "status-ok" : x > 0 ? "status-bad" : "";
+  return `<span class="${cls}">${x || "—"}</span>`;
+}
+
+function parseExplications(raw){
+  if(!raw){
+    return {};
+  }
+
+  if(typeof raw === "object"){
+    return raw;
+  }
+
+  try{
+    return JSON.parse(raw);
+  }catch(e){
+    return {};
+  }
+}
+
+function badExplanations(row){
+  const exp = parseExplications(row.explications_json);
+  const map = [
+    ["fluidite", "Fluidité", row.fluidite],
+    ["qualite", "Qualité", row.qualite_preparation],
+    ["satisfaction", "Satisfaction", row.satisfaction_client],
+    ["placement", "Placement", row.placement],
+    ["motivation", "Motivation", row.motivation_equipe],
+    ["recuperation", "Récupération", row.recuperation_service]
+  ];
+
+  const lines = map
+    .filter(item => n(item[2]) > 0 && n(item[2]) < 4)
+    .map(item => {
+      return `<strong>${item[1]} :</strong> ${exp[item[0]] || "Explication non renseignée"}`;
+    });
+
+  return lines.length ? lines.join("<br>") : "—";
+}
+
+function buildPertesRows(){
+  const rows = RAW.pertes || [];
+  const keys = unique(rows.map(r => `${rowDate(r)}|${rowResto(r)}`));
+  const out = [];
+
+  keys.forEach(key => {
+    const parts = key.split("|");
+    const date = parts[0];
+    const resto = parts[1];
+
+    const day = rows.filter(r => rowDate(r) === date && rowResto(r) === resto);
+    const matin = latest(day.filter(r => rowService(r) === "matin"));
+    const soirCum = latest(day.filter(r => rowService(r) === "soir"));
+
+    if(matin){
+      out.push(pertesFrom(matin, null, "matin"));
+    }
+
+    if(soirCum && matin){
+      out.push(pertesFrom(soirCum, matin, "soir"));
+    }
+
+    if(soirCum){
+      out.push(pertesFrom(soirCum, null, "journee"));
+    }
+  });
+
+  return out;
+}
+
+function pertesFrom(current, subtract, service){
+  const sub = subtract || {};
+
+  return {
+    date_service: rowDate(current),
+    restaurant_code: rowResto(current),
+    restaurant: current.restaurant || RESTO_LABEL[rowResto(current)] || "",
+    service: service,
+    nb_erreurs: n(current.nb_erreurs) - n(sub.nb_erreurs),
+    montant_erreurs: n(current.montant_erreurs) - n(sub.montant_erreurs),
+    montant_pertes: n(current.montant_pertes) - n(sub.montant_pertes),
+    total_erreurs_pertes: n(current.total_erreurs_pertes) - n(sub.total_erreurs_pertes)
+  };
+}
+
+function renderPertes(){
+  const rows = rowsForTotalsGeneric(CURRENT_PERTES);
+
+  const total = sum(rows, "total_erreurs_pertes");
+  const nb = sum(rows, "nb_erreurs");
+
+  const groups = groupByRestaurant(rows);
+  const b = groups.boulogne || [];
+  const a = groups.armentieres || [];
+
+  kpiPertesTotal.textContent = fmtEuro(total);
+  kpiNbErreurs.textContent = fmtNum(nb);
+  kpiPertesB.textContent = fmtEuro(sum(b, "total_erreurs_pertes"));
+  kpiPertesA.textContent = fmtEuro(sum(a, "total_erreurs_pertes"));
+
+  pertesRows.innerHTML = CURRENT_PERTES.map(r => {
+    return `
+      <tr>
+        <td>${formatDateFR(rowDate(r))}</td>
+        <td>${r.restaurant || RESTO_LABEL[rowResto(r)] || ""}</td>
+        <td>${serviceLabel(rowService(r))}</td>
+        <td class="num">${fmtNum(r.nb_erreurs)}</td>
+        <td class="num">${fmtEuro(r.montant_erreurs)}</td>
+        <td class="num">${fmtEuro(r.montant_pertes)}</td>
+        <td class="num">${fmtEuro(r.total_erreurs_pertes)}</td>
+      </tr>
+    `;
+  }).join("") || `<tr><td colspan="7">Aucune donnée pertes.</td></tr>`;
+
+  renderPertesChart();
+}
+
+function renderPertesChart(){
+  const bounds = selectedMonthBounds();
+  const from = bounds[0];
+  const to = bounds[1];
+
+  const rows = buildPertesRows().filter(r => {
+    return rowDate(r) >= from && rowDate(r) <= to && inRestaurant(r);
+  });
+
+  const usable = rowsForTotalsGeneric(rows);
+
+  const byDate = {};
+
+  usable.forEach(r => {
+    const d = rowDate(r);
+    if(!byDate[d]){
+      byDate[d] = { date:d, total:0 };
+    }
+    byDate[d].total += n(r.total_erreurs_pertes);
+  });
+
+  const data = Object.values(byDate)
+    .sort((a,b) => a.date.localeCompare(b.date))
+    .map(r => ({
+      label: formatDateFR(r.date).slice(0,5),
+      value: r.total,
+      target: null
+    }));
+
+  pertesChartNote.textContent = "Graphique figé sur le mois : " + selectedMonthLabel();
+
+  renderLineChart(
+    pertesChart,
+    data,
+    {
+      valueLabel:"Pertes",
+      suffix:"€",
+      empty:"Aucune donnée pertes sur ce mois."
+    }
+  );
 }
 
 function renderControle(){
   const incomplets = CURRENT_CONTROLE.filter(r => String(r.statut).toLowerCase() !== "complet");
+
   controleAlert.innerHTML = incomplets.length
-    ? `<div class="alert">⚠️ ${incomplets.length} jour(s) avec rapport manquant sur la période.</div>`
-    : `<div class="period-note">✅ Tous les rapports sont complets sur la période.</div>`;
+    ? `<div class="alert">${incomplets.length} jour(s) avec rapport manquant sur la période.</div>`
+    : `<div class="period-note">Tous les rapports sont complets sur la période.</div>`;
 
   controleRows.innerHTML = CURRENT_CONTROLE.map(r => {
     const ok = String(r.statut).toLowerCase() === "complet";
-    return `<tr>
-      <td>${formatDateFR(rowDate(r))}</td><td>${r.rapports_recus || 0} / ${r.rapports_attendus || 4}</td>
-      <td>${status(r.boulogne_matin)}</td><td>${status(r.boulogne_soir)}</td>
-      <td>${status(r.armentieres_matin)}</td><td>${status(r.armentieres_soir)}</td>
-      <td class="${ok?"status-ok":"status-bad"}">${r.statut || ""}</td>
-    </tr>`;
+
+    return `
+      <tr>
+        <td>${formatDateFR(rowDate(r))}</td>
+        <td>${r.rapports_recus || 0} / ${r.rapports_attendus || 4}</td>
+        <td>${status(r.boulogne_matin)}</td>
+        <td>${status(r.boulogne_soir)}</td>
+        <td>${status(r.armentieres_matin)}</td>
+        <td>${status(r.armentieres_soir)}</td>
+        <td class="${ok ? "status-ok" : "status-bad"}">${r.statut || ""}</td>
+      </tr>
+    `;
   }).join("") || `<tr><td colspan="7">Aucune donnée contrôle.</td></tr>`;
 }
 
 function status(v){
   const ok = String(v).toLowerCase() === "ok";
-  return `<span class="${ok?"status-ok":"status-bad"}">${v || "Manquant"}</span>`;
+  return `<span class="${ok ? "status-ok" : "status-bad"}">${v || "Manquant"}</span>`;
+}
+
+function statusClass(label){
+  const k = normKey(label);
+  let cls = "status-warn";
+
+  if(k === "ok" || k.includes("sous")){
+    cls = "status-ok";
+  }
+
+  if(k.includes("sur") || k.includes("critique") || k.includes("incomplet")){
+    cls = "status-bad";
+  }
+
+  return `<span class="${cls}">${label || "—"}</span>`;
+}
+
+function attenteStatus(minutes){
+  if(minutes <= 5){
+    return "OK";
+  }
+
+  if(minutes <= 10){
+    return "À surveiller";
+  }
+
+  return "Critique";
+}
+
+function renderLineChart(container, data, options){
+  if(!data.length){
+    container.innerHTML = `<div class="loading">${options.empty || "Aucune donnée."}</div>`;
+    return;
+  }
+
+  const width = 1000;
+  const height = 330;
+  const left = 64;
+  const right = 26;
+  const top = 34;
+  const bottom = 54;
+  const innerW = width - left - right;
+  const innerH = height - top - bottom;
+
+  const values = data.map(d => n(d.value));
+  if(options.targetLabel){
+    values.push(...data.map(d => n(d.target)));
+  }
+
+  let max = Math.max(...values, 1);
+  let min = Math.min(...values, 0);
+
+  if(options.suffix === "%"){
+    max = Math.max(max, FRITES_OBJECTIF_PCT + 1);
+    min = 0;
+  }
+
+  const yPad = (max - min) * 0.15 || 1;
+  const yMin = Math.max(0, min - yPad);
+  const yMax = max + yPad;
+
+  const x = i => {
+    if(data.length === 1){
+      return left + innerW / 2;
+    }
+    return left + (i / (data.length - 1)) * innerW;
+  };
+
+  const y = val => {
+    return top + (1 - ((val - yMin) / (yMax - yMin))) * innerH;
+  };
+
+  const points = data.map((d, i) => `${x(i)},${y(n(d.value))}`).join(" ");
+
+  const targetPoints = data.map((d, i) => {
+    const target = d.target === null || d.target === undefined ? null : n(d.target);
+    return target === null ? "" : `${x(i)},${y(target)}`;
+  }).filter(Boolean).join(" ");
+
+  const grid = [0,1,2,3,4].map(i => {
+    const yy = top + (innerH / 4) * i;
+    const val = yMax - ((yMax - yMin) / 4) * i;
+    return `
+      <line x1="${left}" y1="${yy}" x2="${width-right}" y2="${yy}" stroke="#dbe4f0" stroke-width="1"/>
+      <text x="${left-10}" y="${yy+4}" text-anchor="end" font-size="12" fill="#667085">${formatAxisValue(val, options.suffix)}</text>
+    `;
+  }).join("");
+
+  const xLabels = data.map((d, i) => {
+    const show = data.length <= 12 || i % Math.ceil(data.length / 10) === 0 || i === data.length - 1;
+    if(!show){
+      return "";
+    }
+
+    return `<text x="${x(i)}" y="${height-18}" text-anchor="middle" font-size="12" fill="#667085">${d.label}</text>`;
+  }).join("");
+
+  const circles = data.map((d, i) => {
+    return `
+      <circle cx="${x(i)}" cy="${y(n(d.value))}" r="4.5" fill="#ff7900">
+        <title>${d.label} — ${options.valueLabel}: ${formatAxisValue(d.value, options.suffix)}</title>
+      </circle>
+    `;
+  }).join("");
+
+  const targetLine = targetPoints
+    ? `<polyline points="${targetPoints}" fill="none" stroke="#102a56" stroke-width="3" stroke-dasharray="7 7"/>`
+    : "";
+
+  container.innerHTML = `
+    <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">
+      <rect x="0" y="0" width="${width}" height="${height}" fill="transparent"/>
+      ${grid}
+      <line x1="${left}" y1="${top}" x2="${left}" y2="${height-bottom}" stroke="#102a56" stroke-width="2"/>
+      <line x1="${left}" y1="${height-bottom}" x2="${width-right}" y2="${height-bottom}" stroke="#102a56" stroke-width="2"/>
+      <polyline points="${points}" fill="none" stroke="#ff7900" stroke-width="4"/>
+      ${targetLine}
+      ${circles}
+      ${xLabels}
+      <text x="${left}" y="22" font-size="13" fill="#102a56" font-weight="900">${options.valueLabel || ""}</text>
+      ${options.targetLabel ? `<text x="${width-right}" y="22" text-anchor="end" font-size="13" fill="#102a56" font-weight="900">${options.targetLabel}</text>` : ""}
+    </svg>
+  `;
+}
+
+function formatAxisValue(v, suffix){
+  const x = Number(v) || 0;
+
+  if(suffix === "%"){
+    return x.toLocaleString("fr-FR", {maximumFractionDigits:1}) + " %";
+  }
+
+  if(suffix === "€"){
+    return x.toLocaleString("fr-FR", {maximumFractionDigits:0}) + " €";
+  }
+
+  return x.toLocaleString("fr-FR", {maximumFractionDigits:1});
 }
 
 function switchTab(name){
-  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active", b.dataset.tab === name));
+  document.querySelectorAll(".tab").forEach(b => {
+    b.classList.toggle("active", b.dataset.tab === name);
+  });
+
   performanceTab.classList.toggle("hidden", name !== "performance");
   commandesTab.classList.toggle("hidden", name !== "commandes");
   previsionnelTab.classList.toggle("hidden", name !== "previsionnel");
+  analyseTab.classList.toggle("hidden", name !== "analyse");
+  fritesTab.classList.toggle("hidden", name !== "frites");
+  serviceTab.classList.toggle("hidden", name !== "service");
+  rhTab.classList.toggle("hidden", name !== "rh");
+  qualiteTab.classList.toggle("hidden", name !== "qualite");
+  pertesTab.classList.toggle("hidden", name !== "pertes");
   controleTab.classList.toggle("hidden", name !== "controle");
 }
 
@@ -551,26 +2493,50 @@ async function loadData(){
   dashboard.classList.add("hidden");
   errorBox.classList.add("hidden");
 
-  try {
+  try{
     const res = await fetch(APPS_SCRIPT_URL + "?action=dashboard&ts=" + Date.now());
     const data = await res.json();
-    if(!data.ok) throw new Error(data.error || "Erreur Apps Script");
 
-    RAW = data;
+    if(!data.ok){
+      throw new Error(data.error || "Erreur Apps Script");
+    }
+
+    RAW = {
+      ...RAW,
+      ...data,
+      dashboard_service: data.dashboard_service || [],
+      dashboard_journee: data.dashboard_journee || [],
+      controle_4_rapports: data.controle_4_rapports || [],
+      reel_service: data.reel_service || [],
+      ca: data.ca || [],
+      stocks: data.stocks || [],
+      rh: data.rh || [],
+      heures_supp: data.heures_supp || [],
+      evaluation: data.evaluation || [],
+      reductions: data.reductions || [],
+      refaits: data.refaits || [],
+      pertes: data.pertes || []
+    };
+
     lastUpdate.textContent = "Dernière actualisation : " + new Date().toLocaleString("fr-FR");
     loading.classList.add("hidden");
     dashboard.classList.remove("hidden");
     applyFilters();
-  } catch(e) {
+
+  }catch(e){
     loading.classList.add("hidden");
     errorBox.classList.remove("hidden");
-    errorBox.textContent = "Erreur chargement dashboard : " + e.message + ". Vérifie que le déploiement Apps Script est bien en accès public.";
+    errorBox.textContent = "Erreur chargement dashboard : " + e.message + ". Vérifie que le déploiement Apps Script est bien en accès public et que doGet renvoie ca, stocks, rh, heures_supp, evaluation, reductions, refaits et pertes.";
   }
 }
 
-document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.tab)));
+document.querySelectorAll(".tab").forEach(b => {
+  b.addEventListener("click", () => switchTab(b.dataset.tab));
+});
+
 periodType.addEventListener("change", updateFilterFields);
 viewType.addEventListener("change", applyFilters);
+restaurantFilter.addEventListener("change", applyFilters);
 dayDate.addEventListener("change", applyFilters);
 monthDate.addEventListener("change", applyFilters);
 dateFrom.addEventListener("change", applyFilters);
@@ -581,5 +2547,6 @@ setDefaults();
 updateFilterFields();
 loadData();
 </script>
+
 </body>
 </html>
