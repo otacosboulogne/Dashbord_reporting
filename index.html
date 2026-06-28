@@ -322,7 +322,34 @@ function formatMonthFR(s){
   return d.toLocaleDateString("fr-FR", { month:"long", year:"numeric" });
 }
 
-function rowDate(row){ return String(row.date_service || "").slice(0,10); }
+function rowDate(row){
+  const raw = String(row.date_service || "").trim();
+  if(!raw) return "";
+
+  // Déjà ISO : 2026-10-10 ou 2026-10-10T...
+  const iso = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if(iso){
+    return `${iso[1]}-${String(iso[2]).padStart(2,"0")}-${String(iso[3]).padStart(2,"0")}`;
+  }
+
+  // Format FR : 10/10/2026
+  const fr = raw.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})$/);
+  if(fr){
+    return `${fr[3]}-${String(fr[2]).padStart(2,"0")}-${String(fr[1]).padStart(2,"0")}`;
+  }
+
+  return raw.slice(0,10);
+}
+
+function rowsForTotals(){
+  // En "Toutes les vues", on évite de compter Matin + Soir + Journée.
+  // Si les lignes Journée existent, elles représentent déjà le total complet.
+  if(viewType.value === "all"){
+    const journeeRows = CURRENT_ROWS.filter(r => r.service === "journee");
+    return journeeRows.length ? journeeRows : CURRENT_ROWS.filter(r => r.service !== "journee");
+  }
+  return CURRENT_ROWS;
+}
 
 function buildRows(){
   const serviceRows = (RAW.dashboard_service || []).map(r => ({...r, service: r.service || "matin"}));
@@ -370,25 +397,30 @@ function renderAll(){
 }
 
 function renderKPIs(){
-  const ca = sum(CURRENT_ROWS,"ca_canaux_reel");
-  const prev = sum(CURRENT_ROWS,"ca_total_prev");
-  const cmd = sum(CURRENT_ROWS,"commandes_total_reel");
+  const rows = rowsForTotals();
+
+  const ca = sum(rows,"ca_canaux_reel");
+  const prev = sum(rows,"ca_total_prev");
+  const cmd = sum(rows,"commandes_total_reel");
+
   kpiCA.textContent = fmtEuro(ca);
   kpiCAPrev.textContent = "Prévisionnel : " + fmtEuro(prev) + " | Écart : " + fmtEuro(ca-prev);
-  kpiRestaurant.textContent = fmtEuro(sum(CURRENT_ROWS,"ca_restaurant_reel"));
-  kpiUber.textContent = fmtEuro(sum(CURRENT_ROWS,"ca_uber_reel"));
-  kpiDeliveroo.textContent = fmtEuro(sum(CURRENT_ROWS,"ca_deliveroo_reel"));
-  kpiCC.textContent = fmtEuro(sum(CURRENT_ROWS,"ca_cc_reel"));
+  kpiRestaurant.textContent = fmtEuro(sum(rows,"ca_restaurant_reel"));
+  kpiUber.textContent = fmtEuro(sum(rows,"ca_uber_reel"));
+  kpiDeliveroo.textContent = fmtEuro(sum(rows,"ca_deliveroo_reel"));
+  kpiCC.textContent = fmtEuro(sum(rows,"ca_cc_reel"));
   kpiCmd.textContent = fmtNum(cmd);
   kpiTicket.textContent = fmtEuro(cmd ? ca / cmd : 0);
 
-  const groups = groupByRestaurant(CURRENT_ROWS);
+  const groups = groupByRestaurant(rows);
   const b = groups.boulogne || [];
   const a = groups.armentieres || [];
+
   const cmdB = sum(b,"commandes_total_reel");
   const cmdA = sum(a,"commandes_total_reel");
   const caB = sum(b,"ca_canaux_reel");
   const caA = sum(a,"ca_canaux_reel");
+
   kpiCmdB.textContent = fmtNum(cmdB);
   kpiCmdA.textContent = fmtNum(cmdA);
   kpiTicketB.textContent = "Ticket moyen : " + fmtEuro(cmdB ? caB / cmdB : 0);
@@ -397,12 +429,15 @@ function renderKPIs(){
 }
 
 function renderRestaurantCards(){
-  const groups = groupByRestaurant(CURRENT_ROWS);
+  const rowsForCards = rowsForTotals();
+  const groups = groupByRestaurant(rowsForCards);
+
   const html = ["boulogne","armentieres"].map(code => {
     const rows = groups[code] || [];
     const ca = sum(rows,"ca_canaux_reel");
     const prev = sum(rows,"ca_total_prev");
     const cmd = sum(rows,"commandes_total_reel");
+
     return `<div class="card resto-card">
       <h3>${RESTO_LABEL[code]}</h3>
       <div class="metric-list">
@@ -416,6 +451,7 @@ function renderRestaurantCards(){
       </div>
     </div>`;
   }).join("");
+
   restaurantCards.innerHTML = html;
 }
 
